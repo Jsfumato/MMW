@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MMW : Market Management Web
 
 ## 왜 MMW?
@@ -36,3 +37,7 @@ MMW은 Market Management Web의 줄임말입니다.
 1. SMS API를 이용하여 수정된 사항을 등록된 직원들에게 전송할 수 있도록 기능 추가
 (SMS API)
 [Twilio] https://www.twilio.com/api
+=======
+# MMW
+Market Management Web
+>>>>>>> 4188b8f7114dfa49a6cd824f0e38e59673881e8d
