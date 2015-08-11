@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MMW : Market Management Web
 
 ## 왜 MMW?
@@ -11,11 +10,10 @@ MMW은 Market Management Web의 줄임말입니다.
 그래서 저는 이러한 작업들을 한 페이지 내에서, 
 여러 매장을 손쉽게 관리할 수 있도록 하는 웹 서비스를 만들려고 합니다.
 
-이번 기간동안 구현할 내용으로는
-1. 구글 캘린더와 유사한 형태의 업무시간 테이블의 형성과 직원별 업무 시간 및 인건비 관리,
+##구현 내용
+1. 구글 캘린더와 유사한 형태의 업무시간 테이블의 형성과 직원별 업무 시간 및 인건비 관리
 2. SMS API를 이용한 업무시간 공지 기능
-을 구현할 예정입니다.
-
+3. 
 
 #개발 일정
 
@@ -25,19 +23,19 @@ MMW은 Market Management Web의 줄임말입니다.
 (HTML, CSS, JS를 이용하여 각각의 DOM 추가 및 수정, 삭제)
 
 ##Week 2 :
-1. facebook login 기능 이용하여 매장 관리인의 개인 페이지 생성
+1. facebook login 기능 이용하여 계정 생성
 2. 계정에서 각각의 매장별로 독립된 업무관리 table을 생성할 수 있도록 함
 (facebook login API)
 
 ##Week 3 :
-1. 생성된 페이지와 서버를 연동하여 로그인 시 저장된 일정을 불러오고, 저장할 수 있도록 구현
-($.ajax)
+1. 생성된 페이지와 서버 db 연동
+(ajax)
 
 ##Week 4 :
+1. 관리자와 직원들의 기록사항이 실시간으로 저장되고 보여지도록 구현
+(websocket)
+
+##Week 5 :
 1. SMS API를 이용하여 수정된 사항을 등록된 직원들에게 전송할 수 있도록 기능 추가
 (SMS API)
 [Twilio] https://www.twilio.com/api
-=======
-# MMW
-Market Management Web
->>>>>>> 4188b8f7114dfa49a6cd824f0e38e59673881e8d
