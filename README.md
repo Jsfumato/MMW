@@ -26,5 +26,8 @@ MMW은 Market Management Web의 줄임말입니다.
 2. 각각의 기울기 범위에 따라서 막대그래프의 색을 변경
 
 ##Week 4 :
-1. [WIKI] localStorage? localForage? indexedDB? 각각의 장단점 조사
-2. 조사한 내용을 바탕으로 오프라인에서 데이터 저장, 수정, 로드할 수 있도록 구현
+1. 오프라인에서 데이터 저장, 수정, 로드할 수 있도록 구현(localForage)
+
+##week 5 :
+1. 그래프에 animation적용
+2. 
