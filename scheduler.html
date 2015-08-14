@@ -1,27 +1,105 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Scheduler Page</title>
-        <link type="text/css" rel="stylesheet" href="basic.css">
-    </head>
-    <body>
-        <header>
-            
-        </header>
-        
-        <nav>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </nav>
-        
+<html ng-app="mySchedulerApp">
+<head>
+    <meta charset="utf-8">
+    <title>Angular_Scheduler</title>
+    <link rel="stylesheet" type="text/css" href="slider.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="module.js"></script>
+
+</head>
+    
+<body class="noselect">
+    <nav>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">Question 1</a></li>
+            <li><a href="#">Question 2</a></li>
+            <li><a href="#">Question 3</a></li>
+        </ul>
+    </nav>
+
+    <input type="checkbox" id="toggle">
+    
+    <div id="container">
+        <label for="toggle">
+            <div id="navBtn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </label>
+
         <main>
+
+            <h1>Scheduler</h1>
+
+            <div class="content">
+                <div id="scheduleTable" ng-controller="ScheduleTableCtrl">
+                    <table class="noselect">
+                        <tr>
+                            <th>Time</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th class="red">Sat</th>
+                            <th class="red">Sun</th>
+                        </tr>
+                        <tr ng-repeat="cell in scheculer">
+                            <td>{{ $index }}:00</td>
+                            <td>{{ cell.mon }}</td>
+                            <td>{{ cell.tue }}</td>
+                            <td>{{ cell.wed }}</td>
+                            <td>{{ cell.thu }}</td>
+                            <td>{{ cell.fri }}</td>
+                            <td>{{ cell.sat }}</td>
+                            <td>{{ cell.sun }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div id="EmployeeList">
+                    <span class="listName">스케쥴러에 등록된 직원</span>
+
+                    <div class="searchForm">
+                        <input type="text" ng-model="searchKeyword" placeholder="검색할 내용을 입력하세요">
+                    </div>
+
+                    <ul ng-controller="EmployeeListCtrl">
+                        <li ng-repeat="employee in employees | filter:searchKeyword">
+                            <div class="employeePhoto">
+
+                            </div>
+                            <div class="employeeDetail">
+                                {{ employee.name }}
+                                {{ employee.time }}시간<br>
+                                {{ employee.pay }}원
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="employeePhoto">
+
+                            </div>
+                            <div class="employeeDetail">
+                                <input type="text" ng-model="employeeName" placeholder="이름">
+                                <input type="text" ng-model="workingTime" placeholder="근무시간">
+                                <button type="button" ng-click="add()">add employee</button>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
         </main>
-        
-        <footer>
-        </footer>
-    </body>
+    </div>
+
+
+
+</body>
 </html>

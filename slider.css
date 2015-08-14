@@ -1,0 +1,292 @@
+* {
+    font-family: monospace;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    
+    overflow: hidden;
+}
+
+#navBtn {
+    position: fixed;
+    
+    top: inherit;
+    left: inherit;
+    
+    margin-top: 10px;
+    margin-left: 10px;
+    
+    width: 30px;
+    height: 31px;
+    background: #2c3e50;
+    border-radius: 5px;
+    
+    transition: background 0.5s ease-in-out;
+}
+#navBtn:hover {
+    cursor: pointer;
+    background: #EF4836;
+}
+
+#navBtn div{
+    width: 80%;
+    height: 5px;
+    background: white;
+    
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 4px;
+    
+    border-radius: 2px;
+}
+
+#toggle {
+    visibility: hidden;
+}
+
+#toggle:checked + #navBtn {
+    background: #EF4836;
+}
+
+#toggle:checked + #container {
+    left: 200px;
+}
+
+nav {
+    background: #2c3e50;
+    color: #ECF0F1;
+    height: 100%;
+    width: 200px;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+nav ul{
+    list-style: none;
+    padding: 0;
+}
+
+nav ul div {
+    background: #22313F;
+    height: 50px;
+    
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+nav ul div div {
+    padding: 0 0 0 10px;
+    display: inline-block;
+    width: 50px;
+}
+
+nav ul img {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+}
+
+nav a{
+    padding: 5px;
+    padding-left: 20px;
+    display: block;
+    
+    transition: color .1s ease-in-out, background .1s ease-in-out;
+}
+
+nav a:link, a:visited {
+    text-decoration: none;
+    color: #ECF0F1;
+}
+
+nav a:hover {
+    color: #2c3e50;
+    background: #F5D76E;
+}
+
+#container {
+    width: 100%;
+    height: 110%;
+    background: white;
+    
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transition: left 0.5s ease-in-out;
+    
+    box-shadow: -3px 0 3px;
+}
+
+#container main {
+    text-align: center;
+    padding: 10px;
+    /*padding-left: 100px;*/
+    /*margin-right: 100px;*/
+}
+
+#container main .content{
+    margin: 0 auto;
+    display: inline-block;
+    height: auto;
+    width: 900px;
+    position: relative;
+}
+
+h1 {
+    font-size: 40px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+/*Schedule Table Css*/
+
+#scheduleTable {
+    position: absolute;
+    left: 30px;
+    width: 650px;
+    height: auto;
+
+    padding: 20px 0 ;
+    background: slategray;
+    border-radius: 10px;
+}
+
+#scheduleTable table {
+    margin: auto;
+    width: 630px;
+    height: 400px;
+    text-align: center;
+
+    border: solid 2px white;
+    border-radius: 10px;
+}
+
+#scheduleTable table th{
+    background: darkslategray;
+    color: white;
+    font-size: 12px;
+    width: 90px;
+}
+
+#scheduleTable table td{
+    background: white;
+    font-size: 10px;
+    width: 90px;
+}
+
+#scheduleTable .red {
+    background: orangered;
+}
+
+
+
+
+
+
+
+
+/*Employee List Css*/
+
+#EmployeeList {
+    background: slategray;
+    width: 200px;
+    height: auto;
+
+    border-radius: 10px;
+
+    padding: 20px 0;
+
+    position: absolute;
+    left: 700px;
+}
+
+#EmployeeList .listName{
+    color: white;
+    font-size: 15px;
+}
+
+#EmployeeList ul{
+    padding-left: 0;
+    width: 180px;
+    margin: auto;
+}
+
+#EmployeeList .searchForm {
+    display: inline-block;
+    height: auto;
+    width: 180px;
+    background: white;
+
+    border-radius: 10px;
+    margin: 5px auto;
+}
+
+#EmployeeList .searchForm input[type=text] {
+    width: 160px;
+    height: 20px;
+    border: none;
+}
+
+#EmployeeList .employeePhoto{
+    display: inline-block;
+    width: 40px;
+    height: 100%;
+}
+
+#EmployeeList .employeeDetail{
+    display: inline-block;
+    width: 100px;
+    height: 100%;
+
+    border-left: solid 1px lightgray;
+    padding-left: 5px;
+}
+
+#EmployeeList li{
+    text-align: left;
+    list-style: none;
+    text-height: 5px;
+
+    display: inline-block;
+    height: auto;
+    width: 180px;
+    background: white;
+
+    border-radius: 10px;
+    margin: 3px 0;
+    padding: 5px 0;
+}
+
+#EmployeeList button {
+    margin-top: 10px;
+}
+
+#EmployeeList .employeeDetail input[type=text]{
+    width: 100px;
+}
