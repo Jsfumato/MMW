@@ -15,7 +15,7 @@ html, body{
     width: 100%;
     height: 100%;
     
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #navBtn {
@@ -142,9 +142,10 @@ nav a:hover {
 #container main .content{
     margin: 0 auto;
     display: inline-block;
-    height: auto;
-    width: 900px;
+    height: 1000px;
+    width: 100%;
     position: relative;
+
 }
 
 h1 {
@@ -168,40 +169,19 @@ h2 {
 
 #scheduleTable {
     position: absolute;
-    left: 30px;
-    width: 650px;
+    left: 0;
+    width: 80%;
     height: auto;
 
-    padding: 20px 0 ;
+    box-sizing: border-box;
+
+    padding: 20px 10px ;
     background: slategray;
     border-radius: 10px;
 }
 
-#scheduleTable table {
-    margin: auto;
-    width: 630px;
-    height: 400px;
-    text-align: center;
+#scheduleTable #week {
 
-    border: solid 2px white;
-    border-radius: 10px;
-}
-
-#scheduleTable table th{
-    background: darkslategray;
-    color: white;
-    font-size: 12px;
-    width: 90px;
-}
-
-#scheduleTable table td{
-    background: white;
-    font-size: 10px;
-    width: 90px;
-}
-
-#scheduleTable .red {
-    background: orangered;
 }
 
 
@@ -217,13 +197,14 @@ h2 {
     background: slategray;
     width: 200px;
     height: auto;
-
     border-radius: 10px;
 
+    box-sizing: border-box;
     padding: 20px 0;
+    margin: 0 0 0 10px;
 
     position: absolute;
-    left: 700px;
+    left: 80%;
 }
 
 #EmployeeList .listName{
