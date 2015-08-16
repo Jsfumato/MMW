@@ -1,4 +1,4 @@
-var app = angular.module("mySchedulerApp", ["daypilot"]);
+var app = angular.module("mySchedulerApp", []);
 
 app.factory('GlobalVariable', function() {
     return {
@@ -85,8 +85,6 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
         $scope.employeeName = "";
     };
 });
-
-
 
 app.controller("EventListCtrl", function($scope, GlobalVariable) {
 
