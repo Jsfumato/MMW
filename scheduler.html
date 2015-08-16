@@ -7,42 +7,57 @@
 </head>
     
 <body class="noselect">
-    <nav>
-        <ul>
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">Question 1</a></li>
-            <li><a href="#">Question 2</a></li>
-            <li><a href="#">Question 3</a></li>
-        </ul>
-    </nav>
 
-    <input type="checkbox" id="toggle">
-    
     <div id="container">
-        <label for="toggle">
-            <div id="navBtn">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </label>
+        <header>
+            <div class="logo"></div>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">스케줄러</a></li>
+                <li><a href="#">재고관리</a></li>
+            </ul>
+        </nav>
 
         <main>
-
             <h1>Scheduler</h1>
 
             <div class="content">
                 <div id="scheduleTable" ng-controller="ScheduleTableCtrl">
+                    <table>
+                        <tr>
+                            <th>Time</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                            <th>Sun</th>
+                        </tr>
+                        <tr ng-repeat="row in rows">
+                            <td>{{ row.time }}</td>
+                            <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)"></td>
+                            <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)"></td>
+                        </tr>
+                    </table>
+
+
                     <div>
-                        <daypilot-calendar id="week" daypilot-config="weekConfig" daypilot-events="events" ></daypilot-calendar>
+                        <!--<button ng-click="openPopUp()">Add Event</button><br>-->
 
-                        <input type="date" ng-model="startTime"> <button ng-click="addEvent()">Add</button><br>
-
-                        <button ng-click="moveEvent()">Move</button><br>
-
-                        <input type="text" ng-model="renameTarget"> 을
-                        <input type="text" ng-model="newEventName"> 으로
-                        <button ng-click="renameEvent()">Rename</button>
+                        <!--<div id="popupBackground" class="{ 'hidden' : isHidden() == true }">-->
+                        <!--</div>-->
+                        <!--<div id="popupAddEvent" class="{ hidden : isHidden }">-->
+                            <input type="text" ng-model="employeeName" placeholder="이름" ng-keypress="addIfEnter($event)">
+                            <button type="button" ng-click="addEvent()">addEvent</button>
+                        <!--</div>-->
                     </div>
                 </div>
 
@@ -74,16 +89,17 @@
                                 <input type="text" ng-model="employeeName" placeholder="이름" ng-keypress="addIfEnter($event)">
                                 <input type="text" ng-model="workingTime" placeholder="근무시간" ng-keypress="addIfEnter($event)">
                                 <button type="button" ng-click="add()" ng-keypress="addIfEnter($event)">add employee</button>
-                </div>
+                            </div>
                         </li>
                     </ul>
 
-
                 </div>
             </div>
+
         </main>
     </div>
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
     <!--<script src="js/angular.min.js"></script>-->
     <script src="module.js"></script>
