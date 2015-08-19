@@ -5,6 +5,7 @@ app.factory('GlobalVariable', function() {
         hourly_pay : 6000,
         indexArray : [],
         eventArray : [],
+        bargraph : [],
         eventNum : 0
     };
 });
@@ -56,32 +57,45 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 
     $scope.addEvent = function() {
 
-        var context = {};
-        context.id = GlobalVariable.eventNum;
-        context.name = $scope.employeeName;
-
-        var minIndex = 0;
-        var maxIndex = 0;
-
-        for(var i=0; i<GlobalVariable.indexArray.length; i++){
-            if(GlobalVariable.indexArray[i] < GlobalVariable.indexArray[minIndex]){
-                minIndex = i;
-            }
-            if(GlobalVariable.indexArray[i] > GlobalVariable.indexArray[minIndex]){
-                maxIndex = i;
-            }
+        if($scope.employeeName === undefined || GlobalVariable.indexArray.length === 0){
+            console.log("ERROR::NoName || NoEvent");
         }
 
-        context.min = GlobalVariable.indexArray[minIndex];
-        context.max = GlobalVariable.indexArray[maxIndex];
-        context.workingTime = context.max - context.min + 1;
-        context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
+        else {
+            var context = {};
+            context.id = GlobalVariable.eventNum;
+            context.name = $scope.employeeName;
 
-        GlobalVariable.eventArray.push(context);
+            var minIndex = 0;
+            var maxIndex = 0;
+
+            for (var i = 0; i < GlobalVariable.indexArray.length; i++) {
+                if (GlobalVariable.indexArray[i] < GlobalVariable.indexArray[minIndex]) {
+                    minIndex = i;
+                }
+                if (GlobalVariable.indexArray[i] > GlobalVariable.indexArray[minIndex]) {
+                    maxIndex = i;
+                }
+            }
+
+            context.min = GlobalVariable.indexArray[minIndex];
+            context.max = GlobalVariable.indexArray[maxIndex];
+            context.workingTime = context.max - context.min + 1;
+            context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
+
+            GlobalVariable.bargraph.push({width: 10, height: context.workingTime * 10});
+            for (var i = 0, item; item = GlobalVariable.bargraph[i]; i++) {
+                item.width = 380 / GlobalVariable.bargraph.length - 5;
+            };
+
+            console.log(GlobalVariable.bargraph);
+            GlobalVariable.eventArray.push(context);
+        }
 
         console.log(GlobalVariable.eventArray);
         GlobalVariable.indexArray = [];
         $scope.indexArray = GlobalVariable.indexArray;
+
         $scope.employeeName = "";
     };
 });
@@ -89,5 +103,16 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 app.controller("EventListCtrl", function($scope, GlobalVariable) {
 
     $scope.employees = GlobalVariable.eventArray;
+});
 
+app.controller("barGraphCtrl", function($scope, GlobalVariable){
+
+    function addGraph() {
+        GlobalVariable.bargraph.push({width: 10, height: context.workingTime * 10});
+        for (var i = 0, item; item = GlobalVariable.bargraph[i]; i++) {
+            item.width = 380 / GlobalVariable.bargraph.length;
+        };
+    }
+
+    $scope.bargraph = GlobalVariable.bargraph;
 });

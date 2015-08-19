@@ -14,7 +14,7 @@
         </header>
         <nav>
             <ul>
-                <li><a href="">HOME</a><div class="triangle"></div></li>
+                <li><a href="index">HOME</a><div class="triangle"></div></li>
                 <li><a href="" class="tmp">스케줄러</a><div class="triangle"></div></li>
                 <li><a href="">재고관리</a><div class="triangle"></div></li>
             </ul>
@@ -37,7 +37,7 @@
                                 <th>Wed</th>
                                 <th>Thu</th>
                                 <th>Fri</th>
-                                <th class="holiday">Sat</th>
+                                <th class="saturday">Sat</th>
                                 <th class="holiday">Sun</th>
                             </tr>
                             <tr ng-repeat="row in rows">
@@ -79,7 +79,21 @@
                             </div>
                         </li>
                     </ul>
+                </div>
 
+                <div class="outer">
+                    <div class="graph type1" >
+                        <h3>순수 svg를 이용한 그래프</h3>
+                        <svg ng-controller="barGraphCtrl" width="380px">
+                            <rect ng-repeat="bar in bargraph" x="{{$index*(bar.width+5)}}" y="{{160-bar.height}}" width="{{bar.width}}", height="{{bar.height}}"></rect>
+                        </svg>
+                    </div>
+
+                    <div class="graph d3">
+                        <h3>D3.js를 이용한 그래프</h3>
+
+
+                    </div>
                 </div>
             </div>
 
