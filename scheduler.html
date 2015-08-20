@@ -83,16 +83,45 @@
 
                 <div class="outer">
                     <div class="graph type1" >
-                        <h3>순수 svg를 이용한 그래프</h3>
+                        <h3>svg를 이용한 bar 그래프</h3>
                         <svg ng-controller="barGraphCtrl" width="380px">
-                            <rect ng-repeat="bar in bargraph" x="{{$index*(bar.width+5)}}" y="{{160-bar.height}}" width="{{bar.width}}", height="{{bar.height}}"></rect>
+                            <g ng-repeat="bar in bargraph">
+                                <rect x="0" y="{{$index*(bar.height+5)}}" width="{{bar.width*30}}", height="{{bar.height}}"></rect>
+                                <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
+                                <div class="tooltip">{{bar.name}}은 {{bar.width}}시간 일했어요!</div>
+                            </g>
                         </svg>
                     </div>
 
                     <div class="graph d3">
-                        <h3>D3.js를 이용한 그래프</h3>
+                        <h3>D3.js를 이용한 bar 그래프</h3>
+                        <svg id="#d3bar" ng-controller="d3GraphCtrl" width="380px">
+                            <!--<g ng-repeat="bar in d3bar">-->
+                                <!--<rect width="{{bar.width*30}}" height="{{bar.height}}"></rect>-->
+                                <!--<text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 + 6}}" font-size="20">{{bar.name}}, {{bar.width}}</text>-->
+                            <!--</g>-->
+                        </svg>
+                    </div>
 
+                    <div class="graph type1">
+                        <h3>svg를 이용한 line 그래프</h3>
+                        <svg ng-controller="barGraphCtrl" width="380px">
 
+                            <g ng-repeat="bar in bargraph">
+                                <path id="lineBC" d="M L{{bar.width*30}} {{$index*(bar.height+5) + (bar.height)/2}}Z"
+                                      stroke="red" stroke-width="3"></path>
+                                <circle cx="{{bar.width*30}}" cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="white"></circle>
+                                <line x1="0" y1="{{$index*(bar.height+5) + (bar.height)/2}}" x2="{{bar.width*30}}" y2="{{$index*(bar.height+5) + (bar.height)/2}}"></line>
+                                <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="graph d3">
+                        <h3>D3.js를 이용한 bar 그래프</h3>
+                        <svg id="#d3bar" ng-controller="d3GraphCtrl" width="380px">
+
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -100,8 +129,11 @@
         </main>
     </div>
 
-    <!--<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+
     <!--<script src="angular.min.js"></script>-->
     <script src="module.js"></script>
     <!--<script src="daypilot-all.min.js"></script>-->

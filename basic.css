@@ -54,6 +54,8 @@ nav {
     position: fixed;
     top: inherit;
     left: inherit;
+
+    z-index: 6;
 }
 
 nav ul{
@@ -339,15 +341,37 @@ div.graph {
     box-sizing: border-box;
 }
 
-div.graph.type1 {
+div.graph.type1{
     background: orangered;
 }
 
 .type1 svg rect {
-    /*border: 0 5px;*/
     fill : white;
+    transition: all .3s ease-in-out;
 }
+
+.type1 svg text {
+    fill : gray;
+    font-family: serif;
+    transition: all .3s ease-in-out;
+}
+
+.type1 svg g rect:hover + .tooltip{
+    cursor: pointer;
+    display: block;
+    fill : cornflowerblue;
+}
+
+.type1 svg line{
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
 
 div.graph.d3 {
     background: cornflowerblue;
+}
+
+.tooltip {
+    display: none;
 }

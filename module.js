@@ -1,11 +1,13 @@
-var app = angular.module("mySchedulerApp", []);
+var app = angular.module("mySchedulerApp", ['ngRoute']);
 
 app.factory('GlobalVariable', function() {
     return {
         hourly_pay : 6000,
         indexArray : [],
         eventArray : [],
-        bargraph : [],
+
+        dataset : [],
+        d3graph : [],
         eventNum : 0
     };
 });
@@ -83,12 +85,12 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
             context.workingTime = context.max - context.min + 1;
             context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
 
-            GlobalVariable.bargraph.push({width: 10, height: context.workingTime * 10});
-            for (var i = 0, item; item = GlobalVariable.bargraph[i]; i++) {
-                item.width = 380 / GlobalVariable.bargraph.length - 5;
+            GlobalVariable.dataset.push({name : context.name, height: 10, width: context.workingTime});
+            for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
+                item.height = 150 / GlobalVariable.dataset.length - 5;
             };
 
-            console.log(GlobalVariable.bargraph);
+            console.log(GlobalVariable.dataset);
             GlobalVariable.eventArray.push(context);
         }
 
@@ -107,12 +109,30 @@ app.controller("EventListCtrl", function($scope, GlobalVariable) {
 
 app.controller("barGraphCtrl", function($scope, GlobalVariable){
 
-    function addGraph() {
-        GlobalVariable.bargraph.push({width: 10, height: context.workingTime * 10});
-        for (var i = 0, item; item = GlobalVariable.bargraph[i]; i++) {
-            item.width = 380 / GlobalVariable.bargraph.length;
-        };
-    }
+    $scope.bargraph = GlobalVariable.dataset;
+});
 
-    $scope.bargraph = GlobalVariable.bargraph;
+app.controller("d3GraphCtrl", function($scope, GlobalVariable){
+
+    $scope.d3bar = GlobalVariable.dataset;
+
+    var w=380;
+    var h=100;
+
+    var array = [14,52]
+    var svg = d3.select("#d3bar");
+
+    //console.log(svg);
+
+    svg.selectAll('rect')
+        .data($scope.d3bar)
+        .enter();
+        //.append('rect')
+        //.attr('x', 0)
+        //.attr('y', $scope.d3bar.height+5)
+        //.attr('width', 20)
+        //.attr('height', function (d) {
+        //    return h+(d*4);
+        //})
+        //.attr('fill', 'blue');
 });

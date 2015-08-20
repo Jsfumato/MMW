@@ -1,0 +1,76 @@
+
+            <div class="title">
+                <div></div>
+                <span>Scheduler</span>
+            </div>
+
+            <div class="content">
+                <div id="scheduleTable" ng-controller="ScheduleTableCtrl">
+                    <div class="table">
+                        <table id="scheduler">
+                            <tr>
+                                <th>Time</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th class="saturday">Sat</th>
+                                <th class="holiday">Sun</th>
+                            </tr>
+                            <tr ng-repeat="row in rows">
+                                <td>{{ row.time }}</td>
+                                <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="addEvent">
+                        <input type="text" ng-model="employeeName" placeholder="이름" ng-keypress="addIfEnter($event)">
+                        <button type="button" ng-click="addEvent()">addEvent</button>
+                    </div>
+                </div>
+
+                <!--<div id="EventList" ng-controller="EventListCtrl">-->
+
+                    <!--<span class="listName">Event List</span>-->
+
+                    <!--<div class="searchForm">-->
+                        <!--<input type="text" ng-model="searchKeyword" placeholder="검색할 내용을 입력하세요">-->
+                    <!--</div>-->
+
+                    <!--<ul>-->
+                        <!--<li ng-repeat="employee in employees | filter:searchKeyword">-->
+                            <!--<div class="employeePhoto">-->
+
+                            <!--</div>-->
+                            <!--<div class="employeeDetail">-->
+                                <!--{{ employee.name }}-->
+                                <!--{{ employee.workingTime }}시간<br>-->
+                                <!--{{ employee.totalPay }}원-->
+                            <!--</div>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+
+                <!--<div class="outer">-->
+                    <!--<div class="graph type1" >-->
+                        <!--<h3>순수 svg를 이용한 그래프</h3>-->
+                        <!--<svg ng-controller="barGraphCtrl" width="380px">-->
+                            <!--<rect ng-repeat="bar in bargraph" x="{{$index*(bar.width+5)}}" y="{{160-bar.height}}" width="{{bar.width}}", height="{{bar.height}}"></rect>-->
+                        <!--</svg>-->
+                    <!--</div>-->
+
+                    <!--<div class="graph d3">-->
+                        <!--<h3>D3.js를 이용한 그래프</h3>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
