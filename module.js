@@ -7,8 +7,52 @@ app.factory('GlobalVariable', function() {
         eventArray : [],
 
         dataset : [],
+        strbuffer : [{points : ""}],
         d3graph : [],
-        eventNum : 0
+
+        inven : [],
+        eventNum : 0,
+
+        d3pie :
+            function(d3) {
+                'use strict';
+
+                var dataset = [
+                    { label: 'Abulia', width: 10 },
+                    { label: 'Betelgeuse', width: 20 },
+                    { label: 'Cantaloupe', width: 30 },
+                    { label: 'Dijkstra', width: 40 }
+                ];
+                var width = 380;
+                var height = 160;
+                var radius = Math.min(width, height) / 2;
+
+                var color = d3.scale.category20b();
+                var svg = d3.select('.d3')
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .append('g')
+                    .attr('transform', 'translate(' + (width / 2) +
+                    ',' + (height / 2) + ')');
+
+                var arc = d3.svg.arc()
+                    .outerRadius(radius);
+
+                var pie = d3.layout.pie()
+                    .value(function(d) { return d.width; })
+                    .sort(null);
+
+                var path = svg.selectAll('path')
+                    .data(pie(dataset))
+                    .enter()
+                    .append('path')
+                    .attr('d', arc)
+                    .attr('fill', function(d, i) {
+                        return color(d.data.label);
+                    });
+            }(window.d3)
+
     };
 });
 
@@ -85,12 +129,21 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
             context.workingTime = context.max - context.min + 1;
             context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
 
-            GlobalVariable.dataset.push({name : context.name, height: 10, width: context.workingTime});
+            GlobalVariable.dataset.push(
+                {name : context.name, height: 10, width: context.workingTime}
+            );
+
+            GlobalVariable.strbuffer[0].points = "";
+
             for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
-                item.height = 150 / GlobalVariable.dataset.length - 5;
+                item.height = 160 / GlobalVariable.dataset.length - 5;
+
+                GlobalVariable.strbuffer[0].points += item.width*30 + " ";
+                GlobalVariable.strbuffer[0].points += (i*(item.height+5) + (item.height)/2) + " ";
             };
 
-            console.log(GlobalVariable.dataset);
+            console.log(GlobalVariable.strbuffer[0].points);
+
             GlobalVariable.eventArray.push(context);
         }
 
@@ -105,34 +158,83 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 app.controller("EventListCtrl", function($scope, GlobalVariable) {
 
     $scope.employees = GlobalVariable.eventArray;
+
 });
 
 app.controller("barGraphCtrl", function($scope, GlobalVariable){
 
     $scope.bargraph = GlobalVariable.dataset;
+    $scope.path = GlobalVariable.strbuffer[0];
+
 });
 
-app.controller("d3GraphCtrl", function($scope, GlobalVariable){
+app.controller("d3Chart1Ctrl", function($scope, GlobalVariable){
 
-    $scope.d3bar = GlobalVariable.dataset;
+    //GlobalVariable.d3pie();
 
-    var w=380;
-    var h=100;
+});
 
-    var array = [14,52]
-    var svg = d3.select("#d3bar");
+app.controller("inventoryCtrl", function($scope, GlobalVariable){
 
-    //console.log(svg);
+    $scope.inventory = GlobalVariable.inven;
 
-    svg.selectAll('rect')
-        .data($scope.d3bar)
-        .enter();
-        //.append('rect')
-        //.attr('x', 0)
-        //.attr('y', $scope.d3bar.height+5)
-        //.attr('width', 20)
-        //.attr('height', function (d) {
-        //    return h+(d*4);
-        //})
-        //.attr('fill', 'blue');
+    var inputError = function(){
+        console.log("start");
+        $("#itemError").removeClass("hidden");
+        setTimeout(function(){
+            $("#itemError").addClass("hidden")
+        },2000);
+
+        $scope.itemName = "";
+        $scope.num = "";
+
+        console.log("%c물품 목록 입력값이 유효하지 않습니다.", "font-size:12px; color:red;");
+    }
+
+    $scope.addItem = function(){
+
+        var num = parseInt($scope.num);
+
+        if( Number.isNaN(num) || $scope.itemName === "" || $scope.num === "" ){
+            inputError();
+            return;
+        }
+
+        var context = {
+            name : $scope.itemName,
+            num : num
+        };
+
+        GlobalVariable.inven.push(context);
+
+        $scope.itemName = "";
+        $scope.num = "";
+    };
+
+    $scope.modifyItem = function($event){
+
+        var btn = $event.currentTarget;
+        var hiddenOpt = $(btn).closest(".itemElement").children("#modify");
+
+        hiddenOpt.toggleClass("hidden");
+    };
+
+    $scope.saveChange = function($event, item){
+
+        item.name = $scope.newItemName;
+        item.num = $scope.newNum;
+
+        var btn = $event.currentTarget;
+        var hiddenOpt = $(btn).closest("#modify");
+
+        hiddenOpt.addClass("hidden");
+    };
+
+    $scope.deleteItem = function($event){
+
+        var btn = $event.currentTarget;
+
+        btn.closest(".itemElement").remove();
+        console.log($event.currentTarget);
+    };
 });

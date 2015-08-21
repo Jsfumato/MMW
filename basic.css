@@ -1,6 +1,11 @@
-*:focus {
-    outline: none;
+/**:focus {*/
+    /*outline: none;*/
+/*}*/
+
+.hidden {
+    display: none;
 }
+
 
 .noselect {
     -webkit-touch-callout: none;
@@ -144,7 +149,7 @@ nav div.triangle {
 #container main .content{
     margin: 0 auto;
     display: inline-block;
-    height: 1000px;
+    height: 1500px;
     width: 100%;
     position: relative;
 }
@@ -342,16 +347,16 @@ div.graph {
 }
 
 div.graph.type1{
-    background: orangered;
+    background: #F64747;
 }
 
 .type1 svg rect {
-    fill : white;
+    fill : #F1A9A0;
     transition: all .3s ease-in-out;
 }
 
 .type1 svg text {
-    fill : gray;
+    fill : #ffffff;
     font-family: serif;
     transition: all .3s ease-in-out;
 }
@@ -363,7 +368,7 @@ div.graph.type1{
 }
 
 .type1 svg line{
-    stroke: #ffffff;
+    stroke: #F1A9A0;
     stroke-width: 2;
 }
 
@@ -374,4 +379,44 @@ div.graph.d3 {
 
 .tooltip {
     display: none;
+}
+
+
+
+
+
+
+
+
+#itemError {
+    text-align: center;
+    color: slategray;
+    font-size: 20px;
+    line-height: 40px;
+    font-weight: 600;
+    margin: 5px;
+
+    width: 500px;
+    height: 40px;
+    border: solid 1px gray;
+    border-radius: 5px;
+    opacity: 1;
+    transition: all .3s ease-in-out;
+}
+
+
+.itemElement {
+    width: 500px;
+    height: auto;
+    line-height: 20px;
+    border-radius: 5px;
+    border: solid 2px lightgray;
+
+    padding: 10px;
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+#modify {
+    transition: display .3s ease-in-out;
 }

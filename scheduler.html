@@ -15,8 +15,8 @@
         <nav>
             <ul>
                 <li><a href="index">HOME</a><div class="triangle"></div></li>
-                <li><a href="" class="tmp">스케줄러</a><div class="triangle"></div></li>
-                <li><a href="">재고관리</a><div class="triangle"></div></li>
+                <li><a href="scheduler.html" class="tmp">스케줄러</a><div class="triangle"></div></li>
+                <li><a href="inventoryCtrl.html">재고관리</a><div class="triangle"></div></li>
             </ul>
         </nav>
 
@@ -82,9 +82,10 @@
                 </div>
 
                 <div class="outer">
-                    <div class="graph type1" >
+                    <div class="graph type1" ng-controller="barGraphCtrl">
                         <h3>svg를 이용한 bar 그래프</h3>
-                        <svg ng-controller="barGraphCtrl" width="380px">
+                        <svg width="380px" height="160px">
+
                             <g ng-repeat="bar in bargraph">
                                 <rect x="0" y="{{$index*(bar.height+5)}}" width="{{bar.width*30}}", height="{{bar.height}}"></rect>
                                 <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
@@ -93,36 +94,31 @@
                         </svg>
                     </div>
 
-                    <div class="graph d3">
-                        <h3>D3.js를 이용한 bar 그래프</h3>
-                        <svg id="#d3bar" ng-controller="d3GraphCtrl" width="380px">
-                            <!--<g ng-repeat="bar in d3bar">-->
-                                <!--<rect width="{{bar.width*30}}" height="{{bar.height}}"></rect>-->
-                                <!--<text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 + 6}}" font-size="20">{{bar.name}}, {{bar.width}}</text>-->
-                            <!--</g>-->
+                    <div class="graph d3" ng-controller="d3Chart1Ctrl">
+                        <h3>D3.js를 이용한 pie 그래프</h3>
+
                         </svg>
                     </div>
 
-                    <div class="graph type1">
+                    <div class="graph type1" ng-controller="barGraphCtrl">
                         <h3>svg를 이용한 line 그래프</h3>
-                        <svg ng-controller="barGraphCtrl" width="380px">
+                        <svg width="380px" height="160px">
+                            <path id="lineBC" d="M {{path.points}}" fill="none" fill-opacity=".4" stroke="white" stroke-width="1"></path>
 
                             <g ng-repeat="bar in bargraph">
-                                <path id="lineBC" d="M L{{bar.width*30}} {{$index*(bar.height+5) + (bar.height)/2}}Z"
-                                      stroke="red" stroke-width="3"></path>
-                                <circle cx="{{bar.width*30}}" cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="white"></circle>
+                                <circle cx="{{bar.width*30}}" cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="#F1A9A0"></circle>
                                 <line x1="0" y1="{{$index*(bar.height+5) + (bar.height)/2}}" x2="{{bar.width*30}}" y2="{{$index*(bar.height+5) + (bar.height)/2}}"></line>
                                 <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
                             </g>
                         </svg>
                     </div>
 
-                    <div class="graph d3">
-                        <h3>D3.js를 이용한 bar 그래프</h3>
-                        <svg id="#d3bar" ng-controller="d3GraphCtrl" width="380px">
+                    <div class="graph d3 chart2" ng-controller="d3GraphCtrl">
+                        <h3>D3.js를 이용한 pie 그래프</h3>
 
                         </svg>
                     </div>
+
                 </div>
             </div>
 

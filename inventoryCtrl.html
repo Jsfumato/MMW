@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="mySchedulerApp">
+<head>
+    <meta charset="utf-8">
+    <title>Angular_Scheduler</title>
+    <link rel="stylesheet" type="text/css" href="basic.css">
+</head>
+    
+<body class="noselect">
+
+    <div id="container">
+        <header>
+            <div class="logo">MMW</div>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="index">HOME</a><div class="triangle"></div></li>
+                <li><a href="scheduler.html">스케줄러</a><div class="triangle"></div></li>
+                <li><a href="inventoryCtrl.html" class="tmp">재고관리</a><div class="triangle"></div></li>
+            </ul>
+        </nav>
+
+        <main>
+            <div class="title">
+                <div></div>
+                <span>Inventory Control System</span>
+            </div>
+
+            <div class="content">
+                <div id="inventory" ng-controller="inventoryCtrl">
+                    <div id="itemError" class="hidden">
+                        유효한 값이 아닙니다.
+                    </div>
+                    <div ng-repeat="item in inventory">
+                        <div class="itemElement">
+                            <span>{{item.name}}, {{item.num}}</span>
+                            <button type="button" ng-click="modifyItem($event)">수정</button>
+                            <button type="button" ng-click="deleteItem($event)">삭제</button>
+                            <div id="modify" class="hidden">
+                                <hr>
+                                <input type="text" ng-model="newItemName" placeholder="물품 이름">
+                                <input type="text" ng-model="newNum" placeholder="보유 수량">
+                                <button type="button" value="수정" ng-click="saveChange($event, item)"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="addEvent">
+                        <input type="text" ng-model="itemName" placeholder="물품 이름">
+                        <input type="text" ng-model="num" placeholder="보유 수량">
+                        <button type="button" ng-click="addItem()">추가</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+
+    <!--<script src="angular.min.js"></script>-->
+    <script src="module.js"></script>
+    <!--<script src="daypilot-all.min.js"></script>-->
+
+
+</body>
+</html>
