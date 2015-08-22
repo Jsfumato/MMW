@@ -83,40 +83,65 @@
 
                 <div class="outer">
                     <div class="graph type1" ng-controller="barGraphCtrl">
-                        <h3>svg를 이용한 bar 그래프</h3>
+                        <h3>svg를 이용한 bar chart</h3>
                         <svg width="380px" height="160px">
 
+                            <g class="legend">
+                                <line x1="0" y1="0" x2="0" y2="160px"></line>
+                                <line x1="0" y1="160px" x2="380px" y2="160px"></line>
+                                <line ng-repeat="line in legend" ng-attr-x1="{{line.x1}}" ng-attr-y1="{{line.y1}}" ng-attr-x2="{{line.x2}}" ng-attr-y2="{{line.y2}}"></line>
+                            </g>
+
                             <g ng-repeat="bar in bargraph">
-                                <rect x="0" y="{{$index*(bar.height+5)}}" width="{{bar.width*30}}", height="{{bar.height}}"></rect>
-                                <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
+                                <rect x="0" ng-attr-y="{{$index*(bar.height+5)}}" ng-attr-width="{{bar.width*30}}", ng-attr-height="{{bar.height}}"></rect>
+                                <text x="10" ng-attr-y="{{$index*(bar.height+5) + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
                                 <div class="tooltip">{{bar.name}}은 {{bar.width}}시간 일했어요!</div>
                             </g>
+
                         </svg>
                     </div>
 
-                    <div class="graph d3" ng-controller="d3Chart1Ctrl">
+                    <div class="graph d3">
                         <h3>D3.js를 이용한 pie 그래프</h3>
 
-                        </svg>
                     </div>
 
                     <div class="graph type1" ng-controller="barGraphCtrl">
-                        <h3>svg를 이용한 line 그래프</h3>
+                        <h3>svg를 이용한 line chart</h3>
                         <svg width="380px" height="160px">
-                            <path id="lineBC" d="M {{path.points}}" fill="none" fill-opacity=".4" stroke="white" stroke-width="1"></path>
+                            <path id="lineBC" ng-attr-d="{{path.points}}" fill="white" fill-opacity=".2" stroke="white" stroke-width="1"></path>
+
+                            <g class="legend">
+                                <line x1="0" y1="0" x2="0" y2="160px"></line>
+                                <line x1="0" y1="160px" x2="380px" y2="160px"></line>
+                                <line ng-repeat="line in legend" ng-attr-x1="{{line.x1}}" ng-attr-y1="{{line.y1}}" ng-attr-x2="{{line.x2}}" ng-attr-y2="{{line.y2}}"></line>
+                            </g>
 
                             <g ng-repeat="bar in bargraph">
-                                <circle cx="{{bar.width*30}}" cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="#F1A9A0"></circle>
-                                <line x1="0" y1="{{$index*(bar.height+5) + (bar.height)/2}}" x2="{{bar.width*30}}" y2="{{$index*(bar.height+5) + (bar.height)/2}}"></line>
-                                <text x="10" y="{{$index*(bar.height+5) + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
+                                <circle ng-attr-cx="{{bar.width*30}}" ng-attr-cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="#F1A9A0"></circle>
+                                <line x1="0" ng-attr-y1="{{$index*(bar.height+5) + (bar.height)/2}}" ng-attr-x2="{{bar.width*30}}" ng-attr-y2="{{$index*(bar.height+5) + (bar.height)/2}}"></line>
+                                <text x="10" ng-attr-y="{{$index*(bar.height+5) + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
                             </g>
                         </svg>
                     </div>
 
-                    <div class="graph d3 chart2" ng-controller="d3GraphCtrl">
+                    <div class="graph d3 chart2">
                         <h3>D3.js를 이용한 pie 그래프</h3>
 
+                    </div>
+
+                    <div class="graph type1" ng-controller="pieChartCtrl">
+                        <h3>svg를 이용한 pie chart</h3>
+                        <svg width="380px" height="160px">
+                            <g ng-repeat="pie in piechart">
+                                <path ng-attr-d="{{pie.point}}" fill="#F1A9A0" stroke="white" stroke-width="2px" ng-attr-transform="{{pie.prevRad}}"></path>
+                            </g>
                         </svg>
+                    </div>
+
+                    <div class="graph d3 pie" ng-controller="d3pieCtrl">
+                        <h3>D3.js를 이용한 pie 그래프</h3>
+
                     </div>
 
                 </div>

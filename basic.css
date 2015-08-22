@@ -16,6 +16,8 @@
     user-select: none;
 }
 
+
+
 body {
     background: lightgrey;
     margin: 0;
@@ -350,6 +352,11 @@ div.graph.type1{
     background: #F64747;
 }
 
+.type1 svg .legend line{
+    stroke: white;
+    stroke-width: 1px;
+}
+
 .type1 svg rect {
     fill : #F1A9A0;
     transition: all .3s ease-in-out;
@@ -387,6 +394,23 @@ div.graph.d3 {
 
 
 
+#inventory .searchForm {
+    width: 700px;
+    height: 40px;
+    background: slategray;
+    line-height: 40px;
+    padding: 0 10px;
+    text-align: center;
+}
+
+#inventory .searchForm input[type=text]{
+    width: 500px;
+    height: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 200;
+    font-family: monospace;
+}
 
 #itemError {
     text-align: center;
@@ -396,7 +420,7 @@ div.graph.d3 {
     font-weight: 600;
     margin: 5px;
 
-    width: 500px;
+    width: 700px;
     height: 40px;
     border: solid 1px gray;
     border-radius: 5px;
@@ -404,9 +428,16 @@ div.graph.d3 {
     transition: all .3s ease-in-out;
 }
 
+.addItem {
+    width: 700px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    text-align: right;
+}
 
 .itemElement {
-    width: 500px;
+    width: 700px;
     height: auto;
     line-height: 20px;
     border-radius: 5px;
@@ -417,6 +448,39 @@ div.graph.d3 {
     box-sizing: border-box;
 }
 
-#modify {
+.itemList{
+    list-style: none;
+    padding-left: 0;
+}
+
+.itemList .itemElement {
+    position: relative;
+    display: inline-block;
+}
+
+.itemList .itemElement .listBtn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.itemList .itemElement .itemName {
+    width: 80px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    border-right: solid 1px gray;
+}
+
+.itemList .itemElement .itemQuantity {
+    display: inline-block;
+    padding: 5px;
+}
+
+.modify {
     transition: display .3s ease-in-out;
+}
+
+.modify button {
+    float: right;
 }
