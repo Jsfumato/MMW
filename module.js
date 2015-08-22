@@ -123,7 +123,12 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 
                 item.prevRad = "rotate(" +(180/Math.PI)*(2 * Math.PI * preValue/totalValue)+" 190 80)";
                 console.log(item.prevRad);
-                item.theta = 2 * Math.PI * (item.value/totalValue);
+
+                //item.theta = 2 * Math.PI * (item.value/totalValue);는 100%이기에 circle을 만들지 못한다.
+                //소숫점 둘째 자리에서 반올림하여 100%는 아닌, 근사치를 구하여 data가 하나인 경우에도 원을 생성하도록 수정.
+                
+                item.theta = Math.round((2 * Math.PI * (item.value/totalValue))*100)/100;
+
                 console.log(item.theta);
                 item.point_x = 80 * Math.sin(item.theta);
                 item.point_y =  80 * Math.cos(item.theta);
