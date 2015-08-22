@@ -371,7 +371,7 @@ div.graph.type1{
 .type1 svg g rect:hover + .tooltip{
     cursor: pointer;
     display: block;
-    fill : cornflowerblue;
+    fill : #59ABE3;
 }
 
 .type1 svg line{

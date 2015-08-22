@@ -11,7 +11,9 @@ app.factory('GlobalVariable', function() {
         piepoints : [],
 
         inven : [],
-        eventNum : 0
+        eventNum : 0,
+
+        d3pie : 0
     };
 });
 
@@ -126,7 +128,7 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 
                 //item.theta = 2 * Math.PI * (item.value/totalValue);는 100%이기에 circle을 만들지 못한다.
                 //소숫점 둘째 자리에서 반올림하여 100%는 아닌, 근사치를 구하여 data가 하나인 경우에도 원을 생성하도록 수정.
-                
+
                 item.theta = Math.round((2 * Math.PI * (item.value/totalValue))*100)/100;
 
                 console.log(item.theta);
@@ -139,6 +141,50 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
                 }else{
                     item.point = "M 190 0 A 80 80 0 1 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
                 }
+
+
+
+
+
+//      d3 pie chart 구현
+                $(".pie").children("svg").remove();
+                (function(d3) {
+
+                    var dataset = GlobalVariable.piepoints;
+
+                    var width = 380;
+                    var height = 160;
+                    var radius = Math.min(width, height) / 2;
+
+                    var svg = d3.select('.pie')
+                        .append('svg')
+                        .attr('width', width)
+                        .attr('height', height)
+                        .append('g')
+                        .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
+                    var arc = d3.svg.arc()
+                        .outerRadius(radius);
+
+                    var pie = d3.layout.pie()
+                        .value(function(d) { return d.value; })
+                        .sort(null);
+
+                    console.log(dataset);
+
+                    if(dataset !== undefined) {
+                        var path = svg.selectAll("path")
+                            .data(pie(dataset))
+                            .enter()
+                            .append("path")
+                            .attr("d", arc)
+                            .attr("fill", "#6BB9F0")
+                            .attr("stroke", "white")
+                            .attr("stroke-width", "2px");
+                    }
+                }(window.d3));
+
+
             }
 
 //      line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
@@ -208,44 +254,7 @@ app.controller("pieChartCtrl", function($scope, GlobalVariable){
 
 app.controller("d3pieCtrl", function($scope, GlobalVariable){
 
-    (function(d3) {
 
-        var dataset = [
-            { label: 'Abulia', value: 10 },
-            { label: 'Betelgeuse', value: 20 },
-            { label: 'Cantaloupe', value: 30 },
-            { label: 'Dijkstra', value: 40 }
-        ];
-
-        var width = 380;
-        var height = 160;
-        var radius = Math.min(width, height) / 2;
-
-        var color = d3.scale.category20b();
-        var svg = d3.select('.pie')
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .append('g')
-            .attr('transform', 'translate(' + (width / 2) +
-            ',' + (height / 2) + ')');
-
-        var arc = d3.svg.arc()
-            .outerRadius(radius);
-
-        var pie = d3.layout.pie()
-            .value(function(d) { return d.value; })
-            .sort(null);
-
-        var path = svg.selectAll('path')
-            .data(pie(dataset))
-            .enter()
-            .append('path')
-            .attr('d', arc)
-            .attr('fill', function(d, i) {
-                return color(d.data.label);
-            });
-    }(window.d3))
 });
 
 app.controller("inventoryCtrl", function($scope, GlobalVariable){
