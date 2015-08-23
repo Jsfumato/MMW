@@ -93,8 +93,9 @@
                             </g>
 
                             <g ng-repeat="bar in bargraph">
-                                <rect x="0" ng-attr-y="{{$index*(bar.height+5)}}" ng-attr-width="{{bar.width*30}}", ng-attr-height="{{bar.height}}"></rect>
-                                <text x="10" ng-attr-y="{{$index*(bar.height+5) + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
+                                <rect x="0" ng-attr-y="{{bar.y}}" ng-attr-width="{{bar.width*30}}", ng-attr-height="{{bar.height}}"></rect>
+                                <!--<rect x="0" ng-attr-y="{{$index*(bar.height+5)}}" ng-attr-width="{{bar.width*30}}", ng-attr-height="{{bar.height}}"></rect>-->
+                                <text x="10" ng-attr-y="{{bar.y + (bar.height)/2 + 4}}" font-size="16">{{bar.name}}</text>
                                 <div class="tooltip">{{bar.name}}은 {{bar.width}}시간 일했어요!</div>
                             </g>
 
@@ -118,9 +119,9 @@
                             </g>
 
                             <g ng-repeat="bar in bargraph">
-                                <circle ng-attr-cx="{{bar.width*30}}" ng-attr-cy="{{$index*(bar.height+5) + (bar.height)/2}}" r="5" fill="#F1A9A0"></circle>
-                                <line x1="0" ng-attr-y1="{{$index*(bar.height+5) + (bar.height)/2}}" ng-attr-x2="{{bar.width*30}}" ng-attr-y2="{{$index*(bar.height+5) + (bar.height)/2}}"></line>
-                                <text x="10" ng-attr-y="{{$index*(bar.height+5) + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
+                                <circle ng-attr-cx="{{bar.width*30}}" ng-attr-cy="{{bar.y + (bar.height)/2}}" r="5" fill="#F1A9A0"></circle>
+                                <line x1="0" ng-attr-y1="{{bar.y + (bar.height)/2}}" ng-attr-x2="{{bar.width*30}}" ng-attr-y2="{{bar.y + (bar.height)/2}}"></line>
+                                <text x="10" ng-attr-y="{{bar.y + (bar.height)/2 -4}}" font-size="16">{{bar.name}}</text>
                             </g>
                         </svg>
                     </div>

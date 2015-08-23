@@ -107,7 +107,7 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
 
             for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
                 item.height = 160 / GlobalVariable.dataset.length - 5;
-                //totalValue += GlobalVariable.dataset[i].width;
+                item.y = i*(item.height+5);
             }
 
 //      자료 갯수에 따라서 pie chart내의 내부 rad 조절
@@ -142,49 +142,6 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
                     item.point = "M 190 0 A 80 80 0 1 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
                 }
 
-
-
-
-
-//      d3 pie chart 구현
-                $(".pie").children("svg").remove();
-                (function(d3) {
-
-                    var dataset = GlobalVariable.piepoints;
-
-                    var width = 380;
-                    var height = 160;
-                    var radius = Math.min(width, height) / 2;
-
-                    var svg = d3.select('.pie')
-                        .append('svg')
-                        .attr('width', width)
-                        .attr('height', height)
-                        .append('g')
-                        .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-
-                    var arc = d3.svg.arc()
-                        .outerRadius(radius);
-
-                    var pie = d3.layout.pie()
-                        .value(function(d) { return d.value; })
-                        .sort(null);
-
-                    console.log(dataset);
-
-                    if(dataset !== undefined) {
-                        var path = svg.selectAll("path")
-                            .data(pie(dataset))
-                            .enter()
-                            .append("path")
-                            .attr("d", arc)
-                            .attr("fill", "#6BB9F0")
-                            .attr("stroke", "white")
-                            .attr("stroke-width", "2px");
-                    }
-                }(window.d3));
-
-
             }
 
 //      line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
@@ -209,12 +166,149 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
             GlobalVariable.eventArray.push(context);
         };
 
-        console.log(GlobalVariable.eventArray);
+//      d3 chart 구현
+        addD3PieChart();
+        addD3BarChart();
+        addD3LineChart();
+
         GlobalVariable.indexArray = [];
         $scope.indexArray = GlobalVariable.indexArray;
 
         $scope.employeeName = "";
     };
+
+
+    var addD3PieChart = function() {
+        $(".pie").children("svg").remove();
+        (function (d3) {
+
+            var dataset = GlobalVariable.piepoints;
+
+            var width = 380;
+            var height = 160;
+            var radius = Math.min(width, height) / 2;
+
+            var svg = d3.select('.pie')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .append('g')
+                .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
+            var arc = d3.svg.arc()
+                .outerRadius(radius);
+
+            var pie = d3.layout.pie()
+                .value(function (d) {
+                    return d.value;
+                })
+                .sort(null);
+
+            console.log(dataset);
+
+            if (dataset !== undefined) {
+                var path = svg.selectAll("path")
+                    .data(pie(dataset))
+                    .enter()
+                    .append("path")
+                    .attr("d", arc)
+                    .attr("fill", "#6BB9F0")
+                    .attr("stroke", "white")
+                    .attr("stroke-width", "2px");
+            }
+        }(window.d3));
+    };
+
+    var addD3BarChart = function() {
+        $(".bar").children("svg").remove();
+        (function (d3) {
+
+            var dataset = GlobalVariable.dataset;
+
+            var width = 380;
+            var height = 160;
+
+            var svg = d3.select('.bar')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            if (dataset !== undefined) {
+                var rect = svg.selectAll("rect")
+                    .data(dataset)
+                    .enter().append("rect")
+                    .attr("fill", "#6BB9F0")
+                    .attr("x", "0")
+                    .attr("y", function(d) { return d.y; })
+                    .attr("width", function(d) { return d.width*30; })
+                    .attr("height", function(d) { return d.height; });
+
+                var text = svg.selectAll("text")
+                    .data(dataset)
+                    .enter().append("text")
+                    .text(function(d) {return d.value;})
+                    .attr("x", "10")
+                    .attr("y", function(d) { return (d.y + d.height/2 +4); })
+                    .attr("font-size", "16");
+            }
+        }(window.d3));
+    };
+
+    var addD3LineChart = function(){
+        $(".line").children("svg").remove();
+        (function (d3) {
+
+            var dataset = GlobalVariable.dataset;
+            var linechartPath = GlobalVariable.strbuffer;
+
+            var width = 380;
+            var height = 160;
+
+            var svg = d3.select('.line')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            if (dataset !== undefined) {
+
+                var path = svg.selectAll("path")
+                    .data(linechartPath)
+                    .enter().append("path")
+                    .attr("d", function(d) { return d.points; })
+                    .attr("fill", "white")
+                    .attr("fill-opacity", "0.2")
+                    .attr("stroke", "white")
+                    .attr("stroke-width", "1");
+
+                var circle = svg.selectAll("circle")
+                    .data(dataset)
+                    .enter().append("circle")
+                    .attr("fill", "#6BB9F0")
+                    .attr("cx", function(d) { return d.width*30; })
+                    .attr("cy", function(d) { return (d.y + (d.height)/2); })
+                    .attr("r", "5");
+
+                var line = svg.selectAll("line")
+                    .data(dataset)
+                    .enter().append("line")
+                    .attr("x1", "0")
+                    .attr("y1", function(d) { return (d.y + (d.height)/2); })
+                    .attr("x2", function(d) { return d.width*30; })
+                    .attr("y2", function(d) { return d.y + (d.height)/2; })
+                    .attr("stroke", "#6BB9F0")
+                    .attr("stroke-width", "2");
+
+                var text = svg.selectAll("text")
+                    .data(dataset)
+                    .enter().append("text")
+                    .text(function(d) {return d.value;})
+                    .attr("x", "10")
+                    .attr("y", function(d) { return (d.y + d.height/2 -4); })
+                    .attr("font-size", "16");
+            }
+        }(window.d3));
+    };
+
 });
 
 app.controller("EventListCtrl", function($scope, GlobalVariable) {
