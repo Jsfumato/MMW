@@ -42,141 +42,138 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
         {time: "PM 11", mon : "", tue : "", wed : "", thu : "", fri : "", sat : "", sun : ""},
     ];
 
+    $scope.addEvent = function() {
+        if($scope.employeeName === undefined || GlobalVariable.indexArray.length === 0) {
+            console.log("ERROR::NoName || NoEvent");
+        }else{
+            addEventDataset();
+            adjustChart();
+            makeChartPath();
+
+            addD3PieChart();
+            addD3BarChart();
+            addD3LineChart();
+        };
+    };
+
     $scope.active = function($index){
 
-        for(var i=0; i<GlobalVariable.indexArray.length; i++){
-            if($index === GlobalVariable.indexArray[i]){
+        for(var i= 0, item; item = GlobalVariable.indexArray[i]; i++){
+            if($index === item){
                 GlobalVariable.indexArray.splice(i, 1);
                 return;
-            }
-        }
+            }};
         GlobalVariable.indexArray.push($index);
     };
 
     $scope.isSelected = function($index){
-        for(var i=0; i<GlobalVariable.indexArray.length; i++){
-            if($index === GlobalVariable.indexArray[i]){
+        for(var i= 0, item; item = GlobalVariable.indexArray[i]; i++){
+            if($index === item){
                 return true;
+            }};
+        return false;
+    };
+
+    var addEventDataset = function() {
+        var context = {};
+        context.id = GlobalVariable.eventNum;
+        context.name = $scope.employeeName;
+
+        var minIndex = 0;
+        var maxIndex = 0;
+
+        for (var i = 0; i < GlobalVariable.indexArray.length; i++) {
+            if (GlobalVariable.indexArray[i] < GlobalVariable.indexArray[minIndex]) {
+                minIndex = i;
+            }
+            if (GlobalVariable.indexArray[i] > GlobalVariable.indexArray[minIndex]) {
+                maxIndex = i;
             }
         }
-        return false
-    }
 
-    $scope.addEvent = function() {
+        context.min = GlobalVariable.indexArray[minIndex];
+        context.max = GlobalVariable.indexArray[maxIndex];
+        context.workingTime = context.max - context.min + 1;
+        context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
 
-        if($scope.employeeName === undefined || GlobalVariable.indexArray.length === 0){
-            console.log("ERROR::NoName || NoEvent");
-        }
+        GlobalVariable.dataset.push(
+            {name : context.name, width: context.workingTime}
+        );
 
-        else {
+        GlobalVariable.piepoints.push({
+            name : context.name, value : context.workingTime,
+            point : "", theta : 0, point_x : 0, point_y : 0
+        });
 
-//      스케줄러 관련 연산
-
-            var context = {};
-            context.id = GlobalVariable.eventNum;
-            context.name = $scope.employeeName;
-
-            var minIndex = 0;
-            var maxIndex = 0;
-
-            for (var i = 0; i < GlobalVariable.indexArray.length; i++) {
-                if (GlobalVariable.indexArray[i] < GlobalVariable.indexArray[minIndex]) {
-                    minIndex = i;
-                }
-                if (GlobalVariable.indexArray[i] > GlobalVariable.indexArray[minIndex]) {
-                    maxIndex = i;
-                }
-            }
-
-            context.min = GlobalVariable.indexArray[minIndex];
-            context.max = GlobalVariable.indexArray[maxIndex];
-            context.workingTime = context.max - context.min + 1;
-            context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
-
-            GlobalVariable.dataset.push(
-                {name : context.name, width: context.workingTime}
-            );
-
-            GlobalVariable.piepoints.push({
-                name : context.name, value : context.workingTime,
-                point : "", theta : 0, point_x : 0, point_y : 0
-            });
-
-//      svg chart를 위한 연산
-//      자료 갯수에 따라서 chart내의 bar의 높이를 조절
-
-            for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
-                item.height = 160 / GlobalVariable.dataset.length - 5;
-                item.y = i*(item.height+5);
-            }
-
-//      자료 갯수에 따라서 pie chart내의 내부 rad 조절
-            var totalValue = 0;
-
-            for (var i = 0, item; item = GlobalVariable.piepoints[i]; i++){
-                totalValue += item.value;
-            }
-
-            for (var i = 0, item; item = GlobalVariable.piepoints[i]; i++){
-                var preValue = 0;
-                for (var j = 0; j<i; j++){
-                    preValue += GlobalVariable.piepoints[j].value;
-                }
-
-                item.prevRad = "rotate(" +(180/Math.PI)*(2 * Math.PI * preValue/totalValue)+" 190 80)";
-                console.log(item.prevRad);
-
-                //item.theta = 2 * Math.PI * (item.value/totalValue);는 100%이기에 circle을 만들지 못한다.
-                //소숫점 둘째 자리에서 반올림하여 100%는 아닌, 근사치를 구하여 data가 하나인 경우에도 원을 생성하도록 수정.
-
-                item.theta = Math.round((2 * Math.PI * (item.value/totalValue))*100)/100;
-
-                console.log(item.theta);
-                item.point_x = 80 * Math.sin(item.theta);
-                item.point_y =  80 * Math.cos(item.theta);
-                console.log(item.point_x+", "+item.point_x);
-
-                if(item.theta < Math.PI){
-                    item.point = "M 190 0 A 80 80 0 0 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
-                }else{
-                    item.point = "M 190 0 A 80 80 0 1 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
-                }
-
-            }
-
-//      line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
-            GlobalVariable.strbuffer[0].points = "";
-
-            for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
-                if (i === 0) {
-                    GlobalVariable.strbuffer[0].points += "M " + 0 + " ";
-                    GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " L ";
-                };
-
-                GlobalVariable.strbuffer[0].points += item.width * 30 + " ";
-                GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " ";
-
-                if (i === GlobalVariable.dataset.length - 1) {
-                    GlobalVariable.strbuffer[0].points += 0 + " ";
-                    GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " Z";
-                };
-            }
-            //console.log(GlobalVariable.strbuffer[0].points);
-
-            GlobalVariable.eventArray.push(context);
-        };
-
-//      d3 chart 구현
-        addD3PieChart();
-        addD3BarChart();
-        addD3LineChart();
-
+        GlobalVariable.eventArray.push(context);
         GlobalVariable.indexArray = [];
         $scope.indexArray = GlobalVariable.indexArray;
-
         $scope.employeeName = "";
     };
 
+    var adjustChart = function() {
+        //      자료 갯수에 따라서 chart내의 bar의 높이를 조절
+
+        for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
+            item.height = 160 / GlobalVariable.dataset.length - 5;
+            item.y = i*(item.height+5);
+        }
+
+//      자료 갯수에 따라서 pie chart내의 내부 rad 조절
+        var totalValue = 0;
+
+        for (var i = 0, item; item = GlobalVariable.piepoints[i]; i++){
+            totalValue += item.value;
+        }
+
+        for (var i = 0, item; item = GlobalVariable.piepoints[i]; i++){
+            var preValue = 0;
+            for (var j = 0; j<i; j++){
+                preValue += GlobalVariable.piepoints[j].value;
+            }
+
+            item.prevRad = "rotate(" +(180/Math.PI)*(2 * Math.PI * preValue/totalValue)+" 190 80)";
+            console.log(item.prevRad);
+
+            //item.theta = 2 * Math.PI * (item.value/totalValue);는 100%이기에 circle을 만들지 못한다.
+            //소숫점 둘째 자리에서 반올림하여 100%는 아닌, 근사치를 구하여 data가 하나인 경우에도 원을 생성하도록 수정.
+
+            item.theta = Math.round((2 * Math.PI * (item.value/totalValue))*100)/100;
+
+            console.log(item.theta);
+            item.point_x = 80 * Math.sin(item.theta);
+            item.point_y =  80 * Math.cos(item.theta);
+            console.log(item.point_x+", "+item.point_x);
+
+            if(item.theta < Math.PI){
+                item.point = "M 190 0 A 80 80 0 0 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
+            }else{
+                item.point = "M 190 0 A 80 80 0 1 1 " + (190+item.point_x) + " " + (80-item.point_y) + " L 190 80 Z"
+            }
+
+        }
+    };
+
+    var makeChartPath = function() {
+
+//      line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
+        GlobalVariable.strbuffer[0].points = "";
+
+        for (var i = 0, item; item = GlobalVariable.dataset[i]; i++) {
+            if (i === 0) {
+                GlobalVariable.strbuffer[0].points += "M " + 0 + " ";
+                GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " L ";
+            };
+
+            GlobalVariable.strbuffer[0].points += item.width * 30 + " ";
+            GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " ";
+
+            if (i === GlobalVariable.dataset.length - 1) {
+                GlobalVariable.strbuffer[0].points += 0 + " ";
+                GlobalVariable.strbuffer[0].points += (i * (item.height + 5) + (item.height) / 2) + " Z";
+            };
+        };
+    };
 
     var addD3PieChart = function() {
         $(".pie").children("svg").remove();
@@ -341,13 +338,6 @@ app.controller("barGraphCtrl", function($scope, GlobalVariable){
 app.controller("pieChartCtrl", function($scope, GlobalVariable){
 
     $scope.piechart = GlobalVariable.piepoints;
-
-    //.attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-
-});
-
-app.controller("d3pieCtrl", function($scope, GlobalVariable){
-
 
 });
 
