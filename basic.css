@@ -6,7 +6,6 @@
     display: none;
 }
 
-
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -15,8 +14,6 @@
     -ms-user-select: none;
     user-select: none;
 }
-
-
 
 body {
     background: lightgrey;
@@ -222,12 +219,12 @@ nav div.triangle {
     height: 20px;
     padding: 3px 0;
 
-    /*border-bottom: solid 1px lightgray;*/
-    /*border-right: solid 1px lightgray;*/
+    border-bottom: solid 1px lightgray;
+    border-right: solid 1px lightgray;
 }
 
 .table table td:first-child {
-    /*border-bottom: 0;*/
+    border-bottom: 0;
     border-right: solid 2px slategray;
 }
 
@@ -235,14 +232,59 @@ nav div.triangle {
     background: #F64747;
 }
 
-#scheduleTable div.addEvent {
-    width: 100%;
-    height: 30px;
-    margin: 10px 0 0 0;
 
-    background: slategray;
-    line-height: 30px;
+.outerPopup {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.3);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
 }
+
+.innerPopup {
+    background: white;
+    box-shadow: 0 0 5px;
+    width: 300px;
+    height: 150px;
+    opacity: 1;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -175px;
+    text-align: center;
+    padding: 20px;
+    z-index: 5;
+}
+
+.innerPopup input[type=text] {
+    width: 200px;
+    height: 20px;
+    display: block;
+    padding-left: 5px;
+    margin: 20px auto;
+}
+
+.innerPopup button{
+    background: #ffffff;
+    border: solid 1px #dddddd;
+    width: 50px;
+    height: 25px;
+    margin: 10px;
+}
+
+
+/*#scheduleTable div.addEvent {*/
+    /*width: 100%;*/
+    /*height: 30px;*/
+    /*margin: 10px 0 0 0;*/
+
+    /*background: slategray;*/
+    /*line-height: 30px;*/
+/*}*/
 
 
 

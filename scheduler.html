@@ -8,6 +8,13 @@
     
 <body class="noselect">
 
+    <!--<div class="outerPopup" ng-show="showPopup">-->
+        <!--<div class="innerPopup">-->
+            <!--<input type="text" ng-model="employeeName" placeholder="이름">-->
+            <!--<button type="button" ng-click="addEvent();showPopup = false;">addEvent</button>-->
+        <!--</div>-->
+    <!--</div>-->
+
     <div id="container">
         <header>
             <div class="logo">MMW</div>
@@ -42,20 +49,23 @@
                             </tr>
                             <tr ng-repeat="row in rows">
                                 <td>{{ row.time }}</td>
-                                <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)"></td>
+                                <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)" ng-mouseover="over($index)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)" ng-mouseover="over($index+rows.length)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)" ng-mouseover="over($index+rows.length*2)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)" ng-mouseover="over($index+rows.length*3)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)" ng-mouseover="over($index+rows.length*4)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)" ng-mouseover="over($index+rows.length*5)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)" ng-mouseover="over($index+rows.length*6)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
                             </tr>
                         </table>
                     </div>
 
-                    <div class="addEvent">
-                        <input type="text" ng-model="employeeName" placeholder="이름" ng-keypress="addIfEnter($event)">
-                        <button type="button" ng-click="addEvent()">addEvent</button>
+                    <div class="outerPopup" ng-show="showPopup">
+                        <div class="innerPopup">
+                            <input type="text" ng-model="employeeName" placeholder="이름">
+                            <button type="button" ng-click="addEvent();showPopup = false;">추가</button>
+                            <button type="button" ng-click="cancelEvent();showPopup = false;">취소</button>
+                        </div>
                     </div>
                 </div>
 
