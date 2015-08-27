@@ -4,16 +4,28 @@
     <meta charset="utf-8">
     <title>Angular_Scheduler</title>
     <link rel="stylesheet" type="text/css" href="basic.css">
+
+    <script src="jquery-1.11.3.js"></script>
+    <script>
+
+        window.addEventListener("unload",function(){
+            document.querySelector(".loadingPage").classList.remove("hidden");
+            console.log("unload");
+        });
+
+        window.addEventListener("load",function(){
+            document.querySelector(".loadingPage").classList.add("hidden");
+            console.log("load");
+        });
+
+    </script>
 </head>
     
 <body class="noselect">
 
-    <!--<div class="outerPopup" ng-show="showPopup">-->
-        <!--<div class="innerPopup">-->
-            <!--<input type="text" ng-model="employeeName" placeholder="이름">-->
-            <!--<button type="button" ng-click="addEvent();showPopup = false;">addEvent</button>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="loadingPage">
+        loading...
+    </div>
 
     <div id="container">
         <header>
@@ -49,22 +61,23 @@
                             </tr>
                             <tr ng-repeat="row in rows">
                                 <td>{{ row.time }}</td>
-                                <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)" ng-mouseover="over($index)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)" ng-mouseover="over($index+rows.length)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)" ng-mouseover="over($index+rows.length*2)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)" ng-mouseover="over($index+rows.length*3)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)" ng-mouseover="over($index+rows.length*4)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)" ng-mouseover="over($index+rows.length*5)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
-                                <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)" ng-mouseover="over($index+rows.length*6)" ng-mouseup="stopMouseDown(); showPopup = true;"></td>
+                                <td ng-class="{ selected : isSelected($index) }" ng-mousedown="active($index)" ng-mouseover="over($index)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length) }" ng-mousedown="active($index+rows.length)" ng-mouseover="over($index+rows.length)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*2) }" ng-mousedown="active($index+rows.length*2)" ng-mouseover="over($index+rows.length*2)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*3) }" ng-mousedown="active($index+rows.length*3)" ng-mouseover="over($index+rows.length*3)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*4) }" ng-mousedown="active($index+rows.length*4)" ng-mouseover="over($index+rows.length*4)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*5) }" ng-mousedown="active($index+rows.length*5)" ng-mouseover="over($index+rows.length*5)" ng-mouseup="stopMouseDown()"></td>
+                                <td ng-class="{ selected : isSelected($index+rows.length*6) }" ng-mousedown="active($index+rows.length*6)" ng-mouseover="over($index+rows.length*6)" ng-mouseup="stopMouseDown()"></td>
                             </tr>
                         </table>
                     </div>
 
-                    <div class="outerPopup" ng-show="showPopup">
-                        <div class="innerPopup">
+                    <div class="outerPopup" ng-show="showPopup" ng-click="cancelEvent()">
+                        <div class="innerPopup" ng-click="$event.stopPropagation()">
                             <input type="text" ng-model="employeeName" placeholder="이름">
-                            <button type="button" ng-click="addEvent();showPopup = false;">추가</button>
-                            <button type="button" ng-click="cancelEvent();showPopup = false;">취소</button>
+                            <span ng-show="errorByName">이름을 입력하세요!</span>
+                            <button type="button" ng-click="addEvent()">추가</button>
+                            <button type="button" ng-click="cancelEvent()">취소</button>
                         </div>
                     </div>
                 </div>
@@ -91,7 +104,7 @@
                     </ul>
                 </div>
 
-                <div class="outer">
+                <div class="outerGraph">
                     <div class="graph type1" ng-controller="barGraphCtrl">
                         <h3>svg를 이용한 bar chart</h3>
                         <svg width="380px" height="160px">
@@ -163,7 +176,6 @@
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <!--<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
-    <script src="jquery-1.11.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
 

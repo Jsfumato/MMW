@@ -15,6 +15,33 @@
     user-select: none;
 }
 
+.loadingPage {
+    background: #fafafa;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: slategray;
+    line-height: 500px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 15;
+}
+
+progress {
+    background: #EEE;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+    border-radius: 3px;
+}
+
+progress::-moz-progress-bar {
+    background-color: #CC0000;
+    border-radius: 3px;
+}
+
 body {
     background: lightgrey;
     margin: 0;
@@ -143,6 +170,7 @@ nav div.triangle {
 
     padding: 10px;
     margin-left: 120px;
+    position: relative;
 }
 
 #container main .content{
@@ -241,7 +269,7 @@ nav div.triangle {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 4;
+    z-index: 3;
 }
 
 .innerPopup {
@@ -257,7 +285,7 @@ nav div.triangle {
     margin: -50px 0 0 -175px;
     text-align: center;
     padding: 20px;
-    z-index: 5;
+    z-index: 4;
 }
 
 .innerPopup input[type=text] {
@@ -265,7 +293,12 @@ nav div.triangle {
     height: 20px;
     display: block;
     padding-left: 5px;
-    margin: 20px auto;
+    margin: 20px auto 5px auto;
+}
+
+.innerPopup span{
+    display: block;
+    color: #ff9090;
 }
 
 .innerPopup button{
@@ -275,17 +308,6 @@ nav div.triangle {
     height: 25px;
     margin: 10px;
 }
-
-
-/*#scheduleTable div.addEvent {*/
-    /*width: 100%;*/
-    /*height: 30px;*/
-    /*margin: 10px 0 0 0;*/
-
-    /*background: slategray;*/
-    /*line-height: 30px;*/
-/*}*/
-
 
 
 /*EventList Css*/
@@ -373,12 +395,14 @@ nav div.triangle {
     width: 100px;
 }
 
-div.outer{
+
+
+
+div.outerGraph{
     position: absolute;
     width: 1000px;
     top: 600px;
 }
-
 
 div.graph {
     height: 250px;

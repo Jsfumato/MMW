@@ -44,35 +44,17 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
         {time: "PM 11", mon : "", tue : "", wed : "", thu : "", fri : "", sat : "", sun : ""},
     ];
 
-    //$(function () {
-    //    var isMouseDown = false,
-    //        isHighlighted;
-    //    $("#our_table td")
-    //        .mousedown(function () {
-    //            isMouseDown = true;
-    //            $(this).toggleClass("highlighted");
-    //            isHighlighted = $(this).hasClass("highlighted");
-    //            return false; // prevent text selection
-    //        })
-    //        .mouseover(function () {
-    //            if (isMouseDown) {
-    //                $(this).toggleClass("highlighted", isHighlighted);
-    //            }
-    //        })
-    //        .bind("selectstart", function () {
-    //            return false;
-    //        })
-    //
-    //    $(document)
-    //        .mouseup(function () {
-    //            isMouseDown = false;
-    //        });
-    //});
-
     $scope.addEvent = function() {
-        if($scope.employeeName === undefined || GlobalVariable.indexArray.length === 0) {
+        if($scope.employeeName === undefined || $scope.employeeName === "" || GlobalVariable.indexArray.length === 0) {
+
+            var audio = new Audio("sounds-1058-worthwhile.mp3");
+            audio.play();
+            audio = null;
+
+            $scope.errorByName = true;
             console.log("ERROR::NoName || NoEvent");
         }else{
+
             method.addEventDataset();
             method.adjustChart();
             method.makeChartPath();
@@ -80,11 +62,16 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
             method.addD3PieChart();
             method.addD3BarChart();
             method.addD3LineChart();
+            $scope.showPopup = false;
+            $scope.errorByName = false;
+
+            var audio = new Audio("sounds-1049-knob.mp3");
+            audio.play();
+
         };
     };
 
     $scope.active = function($index){
-
         isMouseDown = true;
         for(var i= 0, item; item = GlobalVariable.indexArray[i]; i++){
             if($index === item){
@@ -104,13 +91,14 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
         isMouseDown = false;
         $scope.showPopup = true;
 
-        //드래그 불가 추가해야지
-
+        //드래그 불가 추가해야
     };
 
     $scope.cancelEvent = function(){
         GlobalVariable.indexArray = [];
         $scope.employeeName = "";
+        $scope.showPopup = false;
+        $scope.errorByName = false;
     }
 
     $scope.isSelected = function($index){
@@ -132,17 +120,19 @@ app.controller("ScheduleTableCtrl", function($scope, GlobalVariable) {
             var minIndex = 0;
             var maxIndex = 0;
 
-            for (var i = 0; i < GlobalVariable.indexArray.length; i++) {
-                if (GlobalVariable.indexArray[i] < GlobalVariable.indexArray[minIndex]) {
+            for (var i = 0, item; item = GlobalVariable.indexArray[i]; i++) {
+                if (item < GlobalVariable.indexArray[minIndex]) {
                     minIndex = i;
                 }
-                if (GlobalVariable.indexArray[i] > GlobalVariable.indexArray[minIndex]) {
+                if (item > GlobalVariable.indexArray[maxIndex]) {
                     maxIndex = i;
                 }
             }
 
             context.min = GlobalVariable.indexArray[minIndex];
             context.max = GlobalVariable.indexArray[maxIndex];
+            console.log(context.max);
+            console.log(context.min);
             context.workingTime = context.max - context.min + 1;
             context.totalPay = GlobalVariable.hourly_pay * context.workingTime;
 
