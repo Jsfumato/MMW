@@ -31,6 +31,7 @@
     z-index: 15;
 }
 
+
 progress {
     background: #EEE;
     box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
@@ -467,6 +468,7 @@ div.graph.d3 {
     line-height: 40px;
     padding: 0 10px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 #inventory .searchForm input[type=text]{
@@ -495,23 +497,22 @@ div.graph.d3 {
 }
 
 .addItem {
+    box-sizing: border-box;
+    background: #ffffff;
     width: 700px;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 10px;
-    text-align: right;
+    padding: 10px;
 }
 
-.itemElement {
-    width: 700px;
-    height: auto;
-    line-height: 20px;
-    border-radius: 5px;
-    border: solid 2px lightgray;
+span.inputItem {
+    display: inline-block;
+    width: 300px;
+    text-align: left;
+    height: 25px;
+}
 
-    padding: 10px;
-    margin: 5px;
-    box-sizing: border-box;
+span.require::before {
+    content: '*';
+    color: #ff3737;
 }
 
 .itemList{
@@ -520,6 +521,13 @@ div.graph.d3 {
 }
 
 .itemList .itemElement {
+    width: 700px;
+    height: auto;
+    line-height: 20px;
+    background: #fefefe;
+
+    box-sizing: border-box;
+
     position: relative;
     display: inline-block;
 }
@@ -549,4 +557,25 @@ div.graph.d3 {
 
 .modify button {
     float: right;
+}
+
+.invenLog {
+    width: 700px;
+    box-sizing: border-box;
+    text-align: left;
+}
+.invenLog th:first-child {
+    width: 300px;
+}
+.invenLog th:nth-child(2) {
+    width: 100px;
+}
+.invenLog th:nth-child(3) {
+    width: 100px;
+}
+.invenLog th:nth-child(4){
+    width: 100px;
+}
+.invenLog th:nth-child(5){
+    width: 100px;
 }

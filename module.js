@@ -380,9 +380,18 @@ app.controller("pieChartCtrl", function($scope, GlobalVariable){
 
 });
 
+
+
 app.controller("inventoryCtrl", function($scope, GlobalVariable){
 
     $scope.inventory = GlobalVariable.inven;
+    $scope.invenLog = [];
+
+    $scope.showItem = $scope.inventory[0];
+    $scope.reasonList = [{value : "구입"}, {value : "판매"}];
+    $scope.reason = $scope.reasonList[0];
+
+    $scope.path = [{points : ""}];
 
     var inputError = function(){
         console.log("start");
@@ -401,29 +410,87 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
     $scope.addItem = function(){
 
         var quantity = parseInt($scope.itemQuantity);
-
-        if( Number.isNaN(quantity) || $scope.itemName === "" || $scope.num === "" ){
+        if( Number.isNaN(quantity) || $scope.itemName === "" || $scope.num === "" || $scope.num <= 0){
             inputError();
             return;
         }
 
-        var context = {
-            name : $scope.itemName,
-            quantity : quantity
+        console.log("input : " + ($scope.reason.value === $scope.reasonList[0].value));
+        if($scope.reason.value === $scope.reasonList[0].value) {
+            for(var i=0, item; item=$scope.inventory[i]; i++) {
+                console.log("already have : "+ (item.name === $scope.itemName));
+                if (item.name === $scope.itemName) {
+                    console.log("prev : "+item.quantity);
+                    item.quantity = item.quantity + quantity;
+                    console.log("new : "+item.quantity);
+
+                    $scope.invenLog.push({
+                        name: $scope.itemName,
+                        input: "+"+quantity,
+                        date: new Date(),
+                        reason: $scope.reason.value
+                    });
+
+                    //d3LineChart();
+                    $scope.itemName = "";
+                    $scope.itemQuantity = "";
+                    return;
+                }
+            }
+            $scope.invenLog.push({
+                name: $scope.itemName,
+                input: "+"+quantity,
+                date: new Date(),
+                reason: $scope.reason.value
+            });
+            GlobalVariable.inven.push({
+                name: $scope.itemName,
+                quantity: quantity,
+                date: new Date(),
+                reason: $scope.reason.value
+            });
+
+            //d3LineChart();
+            $scope.itemName = "";
+            $scope.itemQuantity = "";
+            return;
         };
 
-        GlobalVariable.inven.push(context);
+        console.log("output : " + ($scope.reason.value === $scope.reasonList[1].value));
+        if($scope.reason.value === $scope.reasonList[1].value) {
+            for(var i=0, item; item=$scope.inventory[i]; i++) {
+                console.log("already have : "+ (item.name === $scope.itemName));
+                if((item.name === $scope.itemName) && $scope.itemQuantity <= item.quantity) {
+                    console.log("prev : "+item.quantity);
+                    item.quantity = item.quantity - quantity;
+                    console.log("new : "+item.quantity);
 
-        $scope.itemName = "";
-        $scope.itemQuantity = "";
-    };
+                    $scope.invenLog.push({
+                        name: $scope.itemName,
+                        output: "-"+quantity,
+                        date: new Date(),
+                        reason: $scope.reason.value
+                    });
 
-    $scope.modifyItem = function($event){
+                    //d3LineChart();
 
-        var btn = $event.currentTarget;
-        var hiddenOpt = $(btn).closest(".itemElement").children(".modify");
-
-        hiddenOpt.toggleClass("hidden");
+                    $scope.itemName = "";
+                    $scope.itemQuantity = "";
+                    return;
+                } else{
+                    alert("ERROR::감소할 수 없습니다.");
+                    console.log("ERROR::감소할 수 없습니다.");
+                    $scope.itemName = "";
+                    $scope.itemQuantity = "";
+                    return;
+                }
+            }
+            alert("ERROR::0에서 감소할 수 없습니다.");
+            console.log("ERROR::0에서 감소할 수 없습니다.");
+            $scope.itemName = "";
+            $scope.itemQuantity = "";
+            return;
+        };
     };
 
     $scope.saveChange = function($event, item){
@@ -437,11 +504,138 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
         hiddenOpt.addClass("hidden");
     };
 
-    $scope.deleteItem = function($event){
+    //$scope.modifyItem = function($event){
+    //
+    //    var btn = $event.currentTarget;
+    //    var hiddenOpt = $(btn).closest(".itemElement").children(".modify");
+    //
+    //    hiddenOpt.toggleClass("hidden");
+    //};
 
-        var btn = $event.currentTarget;
+    //$scope.deleteItem = function($event){
+    //
+    //    var btn = $event.currentTarget;
+    //
+    //    for(var i= 0, item; item = GlobalVariable.inven[i]; i++){
+    //        if(item.name === $(btn).closest(".itemElement").children(".itemName").text()){
+    //            GlobalVariable.inven.splice(i, 1);
+    //            console.log("%c아이템 삭제 : " + item.name,"color : red;");
+    //            console.log("%c남은 아이템 목록 : ","color : red;");
+    //            console.log(GlobalVariable.inven);
+    //            return;
+    //        }};
+    //    console.log($event.currentTarget);
+    //};
 
-        btn.closest(".itemElement").remove();
-        console.log($event.currentTarget);
+    $scope.d3LineChart = function($event){
+
+        var chart = $($event.currentTarget).parent().children(".itemChart");
+        chart.children("svg").remove();
+
+        var dataset = $scope.invenLog;
+        var linechartPath = $scope.path;
+
+        var width = "700px";
+        var height = "300px";
+
+        var svg = d3.select(chart[0])
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .attr("style", "background-color : #efefef;");
+
+        if (dataset !== undefined) {
+
+            var path = svg.selectAll("path")
+                .data(linechartPath)
+                .enter().append("path")
+                .attr("d", function (d) {
+                    return d.points;
+                })
+                .attr("fill", "white")
+                .attr("fill-opacity", "0.2")
+                .attr("stroke", "black")
+                .attr("stroke-width", "1");
+        }
     };
+
+    var makeChartPath = function() {
+
+        //line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
+        $scope.path[0].points = "";
+
+        for (var i = 0, item; item = GlobalVariable.inven[i]; i++) {
+            if (i === 0) {
+                $scope.path[0].points += "M " + 0 + " ";
+                $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " L ";
+            };
+
+            $scope.path[0].points += item.width * 30 + " ";
+            $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " ";
+
+            if (i === GlobalVariable.inven.length - 1) {
+                $scope.path[0].points += 0 + " ";
+                $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " Z";
+            };
+        };
+    };
+
+
+
+
+
+        //(function (d3) {
+        //    var dataset = $scope.invenLog;
+        //    var linechartPath = $scope.path;
+        //
+        //    var width = 700;
+        //    var height = "300px";
+        //
+        //    console.log(d3.select('.itemChart'));
+        //    var svg = d3.select('.itemChart')
+        //        .append('svg')
+        //        .attr('width', width)
+        //        .attr('height', height)
+        //        .attr('fill', "red");
+
+            //if (dataset !== undefined) {
+            //    //
+            //    //    var path = svg.selectAll("path")
+            //    //        .data(linechartPath)
+            //    //        .enter().append("path")
+            //    //        .attr("d", function(d) { return d.points; })
+            //    //        .attr("fill", "white")
+            //    //        .attr("fill-opacity", "0.2")
+            //    //        .attr("stroke", "white")
+            //    //        .attr("stroke-width", "1");
+            //    //
+            //    //    var circle = svg.selectAll("circle")
+            //    //        .data(dataset)
+            //    //        .enter().append("circle")
+            //    //        .attr("fill", "#6BB9F0")
+            //    //        .attr("cx", function(d) { return d.width*30; })
+            //    //        .attr("cy", function(d) { return (d.y + (d.height)/2); })
+            //    //        .attr("r", "5");
+            //    //
+            //    //    var line = svg.selectAll("line")
+            //    //        .data(dataset)
+            //    //        .enter().append("line")
+            //    //        .attr("x1", "0")
+            //    //        .attr("y1", function(d) { return (d.y + (d.height)/2); })
+            //    //        .attr("x2", function(d) { return d.width*30; })
+            //    //        .attr("y2", function(d) { return d.y + (d.height)/2; })
+            //    //        .attr("stroke", "#6BB9F0")
+            //    //        .attr("stroke-width", "2");
+            //    //
+            //    //    var text = svg.selectAll("text")
+            //    //        .data(dataset)
+            //    //        .enter().append("text")
+            //    //        .text(function(d) {return d.value;})
+            //    //        .attr("x", "10")
+            //    //        .attr("y", function(d) { return (d.y + d.height/2 -4); })
+            //    //        .attr("font-size", "16");
+            //    //}
+            //}
+        //})(window.d3);
+
 });

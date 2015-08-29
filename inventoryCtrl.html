@@ -4,9 +4,26 @@
     <meta charset="utf-8">
     <title>Angular_Scheduler</title>
     <link rel="stylesheet" type="text/css" href="basic.css">
+    <script>
+
+        window.addEventListener("unload",function(){
+            document.querySelector(".loadingPage").classList.remove("hidden");
+            console.log("unload");
+        });
+
+        window.addEventListener("load",function(){
+            document.querySelector(".loadingPage").classList.add("hidden");
+            console.log("load");
+        });
+
+    </script>
 </head>
     
 <body class="noselect">
+
+<div class="loadingPage">
+    loading...
+</div>
 
     <div id="container">
         <header>
@@ -37,28 +54,74 @@
                     </div>
 
                     <div class="addItem">
-                        <input type="text" ng-model="itemName" placeholder="물품 이름">
-                        <input type="text" ng-model="itemQuantity" placeholder="보유 수량">
+                        <!--<select ng-model="showItem" ng-options="item.name for item in inventory"></select>-->
+
+                        <span class="inputItem require">품명 : <input type="text" ng-model="itemName" placeholder="물품 이름"></span>
+                        <span class="inputItem require">변경수량 : <input type="text" ng-model="itemQuantity" placeholder="보유 수량"></span>
+                        <span class="inputItem require">사유 : <select ng-model="reason" ng-options="reason.value for reason in reasonList"></select></span>
+
+                        <span class="inputItem">날짜 : <input type="datetime-local" ng-model="itemDate"></span>
                         <button type="button" ng-click="addItem()">추가</button>
                     </div>
 
                     <ul class="itemList">
                         <li class="itemElement" ng-repeat="item in inventory | filter:searchKeyword">
-
+                            <input type="checkbox" ng-model="chart.isChecked" ng-click="d3LineChart($event)">
+                            <input type="checkbox" ng-model="log.isChecked">
                             <div class="itemName">{{item.name}}</div>
                             <div class="itemQuantity">{{item.quantity}}</div>
+
                             <div class="listBtn">
-                                <button class="modify" type="button" ng-click="modifyItem($event)">수정</button>
-                                <button class="delete" type="button" ng-click="deleteItem($event)">삭제</button>
+                                <!--<button class="modify" type="button" ng-click="modifyItem($event)">수정</button>-->
+                                <!--<button class="delete" type="button" ng-click="deleteItem($event)">삭제</button>-->
                             </div>
+
+                            <div ng-class="{'itemChart' : true , 'hidden' : !chart.isChecked}">
+                                <hr>
+                                Chart
+                            </div>
+
+                            <div ng-class="{'itemLog' : true, 'hidden' : !log.isChecked}">
+                                <hr>
+                                <table class="invenLog">
+                                    <tr>
+                                        <th>Date</th><th>Name</th><th colspan="2">Quantity</th><th>비고</th>
+                                    </tr>
+                                    <tr ng-repeat="item in invenLog | filter:filterbyItem()">
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.input}}</td>
+                                        <td>{{item.output}}</td>
+                                        <td>{{item.reason}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
                             <div class="modify hidden">
                                 <hr>
+                                <h4>수정</h4>
                                 <input type="text" ng-model="newItemName" placeholder="물품 이름">
                                 <input type="text" ng-model="newItemQuantity" placeholder="보유 수량">
                                 <button type="button" value="수정" ng-click="saveChange($event, item)"></button>
                             </div>
 
                         </li>
+                    </ul>
+
+                    <ul>
+                        <table class="invenLog">
+                            <tr>
+                                <th>Date</th><th>Name</th><th colspan="2">Quantity</th><th>비고</th>
+                            </tr>
+                            <tr ng-repeat="item in invenLog">
+                                <td>{{item.date}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.input}}</td>
+                                <td>{{item.output}}</td>
+                                <td>{{item.reason}}</td>
+                            </tr>
+                        </table>
+
                     </ul>
 
 
@@ -68,7 +131,7 @@
         </main>
     </div>
 
-    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
