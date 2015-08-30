@@ -1,0 +1,50 @@
+/*MMW*/
+
+.loadingPage {
+    background: #fafafa;
+    height: 100%;
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 15;
+}
+
+.loader, .loader:before, .loader:after {
+    background: #aaaaaa;
+    animation: load1 1s infinite ease-in-out;
+    width: 10px;
+}
+.loader:before, .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+}
+.loader:before {
+    left: -18px;
+    animation-delay: -0.3s;
+}
+.loader {
+    top: 50%;
+    margin: -25px auto 0 auto;
+    position: relative;
+    transform: translateZ(0);
+    animation-delay: -0.15s;
+}
+.loader:after {
+    left: 18px;
+}
+@keyframes load1 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0 #aaa;
+        height: 40px;
+    }
+    40% {
+        box-shadow: 0 -20px #aaa;
+        height: 50px;
+    }
+}

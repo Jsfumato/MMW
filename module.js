@@ -427,11 +427,11 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
                     $scope.invenLog.push({
                         name: $scope.itemName,
                         input: "+"+quantity,
+                        quantity: item.quantity,
                         date: new Date(),
                         reason: $scope.reason.value
                     });
 
-                    //d3LineChart();
                     $scope.itemName = "";
                     $scope.itemQuantity = "";
                     return;
@@ -440,6 +440,7 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
             $scope.invenLog.push({
                 name: $scope.itemName,
                 input: "+"+quantity,
+                quantity: quantity,
                 date: new Date(),
                 reason: $scope.reason.value
             });
@@ -450,7 +451,6 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
                 reason: $scope.reason.value
             });
 
-            //d3LineChart();
             $scope.itemName = "";
             $scope.itemQuantity = "";
             return;
@@ -468,11 +468,10 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
                     $scope.invenLog.push({
                         name: $scope.itemName,
                         output: "-"+quantity,
+                        quantity : item.quantity,
                         date: new Date(),
                         reason: $scope.reason.value
                     });
-
-                    //d3LineChart();
 
                     $scope.itemName = "";
                     $scope.itemQuantity = "";
@@ -527,38 +526,6 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
         console.log($event.currentTarget);
     };
 
-    $scope.d3LineChart = function($event){
-
-        var chart = $($event.currentTarget).parent().children(".itemChart");
-        chart.children("svg").remove();
-
-        var dataset = $scope.invenLog;
-        var linechartPath = $scope.path;
-
-        var width = "700px";
-        var height = "300px";
-
-        var svg = d3.select(chart[0])
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .attr("style", "background-color : #efefef;");
-
-        if (dataset !== undefined) {
-
-            var path = svg.selectAll("path")
-                .data(linechartPath)
-                .enter().append("path")
-                .attr("d", function (d) {
-                    return d.points;
-                })
-                .attr("fill", "white")
-                .attr("fill-opacity", "0.2")
-                .attr("stroke", "black")
-                .attr("stroke-width", "1");
-        }
-    };
-
     $scope.filterKey = function (item) {
 
         for(var i = 0, list; list = GlobalVariable.inven[i]; i++){
@@ -568,24 +535,24 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
         }
     };
 
-    var makeChartPath = function() {
-
-        //line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
-        $scope.path[0].points = "";
-
-        for (var i = 0, item; item = GlobalVariable.inven[i]; i++) {
-            if (i === 0) {
-                $scope.path[0].points += "M " + 0 + " ";
-                $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " L ";
-            };
-
-            $scope.path[0].points += item.width * 30 + " ";
-            $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " ";
-
-            if (i === GlobalVariable.inven.length - 1) {
-                $scope.path[0].points += 0 + " ";
-                $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " Z";
-            };
-        };
-    };
+    //var makeChartPath = function() {
+    //
+    //    //line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
+    //    $scope.path[0].points = "";
+    //
+    //    for (var i = 0, item; item = GlobalVariable.inven[i]; i++) {
+    //        if (i === 0) {
+    //            $scope.path[0].points += "M " + 0 + " ";
+    //            $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " L ";
+    //        };
+    //
+    //        $scope.path[0].points += item.width * 30 + " ";
+    //        $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " ";
+    //
+    //        if (i === GlobalVariable.inven.length - 1) {
+    //            $scope.path[0].points += 0 + " ";
+    //            $scope.path[0].points += (i * (item.quantity + 5) + (item.quantity) / 2) + " Z";
+    //        };
+    //    };
+    //};
 });

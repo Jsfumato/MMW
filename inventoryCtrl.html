@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Angular_Scheduler</title>
+    <link rel="stylesheet" type="text/css" href="loading.css">
     <link rel="stylesheet" type="text/css" href="basic.css">
     <script>
 
@@ -21,9 +22,9 @@
     
 <body class="noselect">
 
-<div class="loadingPage">
-    loading...
-</div>
+    <div class="loadingPage">
+        <div class="loader"></div>
+    </div>
 
     <div id="container">
         <header>
@@ -79,6 +80,12 @@
                             <div ng-class="{'itemChart' : true , 'hidden' : !chart.isChecked}">
                                 <hr>
                                 Chart
+                                <svg width="700px" height="200px" style="background: white">
+                                    <g ng-repeat="item in invenLog | filter:filterKey(item):true | limitTo:10">
+                                        <line ng-attr-x1="{{$index*5+10}}" y1="180" ng-attr-x2="{{$index*5+10}}" ng-attr-y2="{{-item.quantity/20+180}}" stroke="black" stroke-width="4px"></line>
+                                        <circle ng-attr-cx="{{$index*5+10}}" ng-attr-cy="{{-item.quantity/20+180}}" r="5" fill="black" stroke="black" stroke-width="1px"></circle>
+                                    </g>
+                                </svg>
                             </div>
 
                             <div ng-class="{'itemLog' : true, 'hidden' : !log.isChecked}">
