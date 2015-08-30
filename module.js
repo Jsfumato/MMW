@@ -512,20 +512,20 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
     //    hiddenOpt.toggleClass("hidden");
     //};
 
-    //$scope.deleteItem = function($event){
-    //
-    //    var btn = $event.currentTarget;
-    //
-    //    for(var i= 0, item; item = GlobalVariable.inven[i]; i++){
-    //        if(item.name === $(btn).closest(".itemElement").children(".itemName").text()){
-    //            GlobalVariable.inven.splice(i, 1);
-    //            console.log("%c아이템 삭제 : " + item.name,"color : red;");
-    //            console.log("%c남은 아이템 목록 : ","color : red;");
-    //            console.log(GlobalVariable.inven);
-    //            return;
-    //        }};
-    //    console.log($event.currentTarget);
-    //};
+    $scope.deleteItem = function($event){
+
+        var btn = $event.currentTarget;
+
+        for(var i= 0, item; item = GlobalVariable.inven[i]; i++){
+            if(item.name === $(btn).closest(".itemElement").children(".itemName").text()){
+                GlobalVariable.inven.splice(i, 1);
+                console.log("%c아이템 삭제 : " + item.name,"color : red;");
+                console.log("%c남은 아이템 목록 : ","color : red;");
+                console.log(GlobalVariable.inven);
+                return;
+            }};
+        console.log($event.currentTarget);
+    };
 
     $scope.d3LineChart = function($event){
 
@@ -559,6 +559,15 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
         }
     };
 
+    $scope.filterKey = function (item) {
+
+        for(var i = 0, list; list = GlobalVariable.inven[i]; i++){
+            if(item.name === list.name){
+                return item.name;
+            }
+        }
+    };
+
     var makeChartPath = function() {
 
         //line chart의 각 line의 끝 점을 이어주는 path를 생성한다.
@@ -579,63 +588,4 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
             };
         };
     };
-
-
-
-
-
-        //(function (d3) {
-        //    var dataset = $scope.invenLog;
-        //    var linechartPath = $scope.path;
-        //
-        //    var width = 700;
-        //    var height = "300px";
-        //
-        //    console.log(d3.select('.itemChart'));
-        //    var svg = d3.select('.itemChart')
-        //        .append('svg')
-        //        .attr('width', width)
-        //        .attr('height', height)
-        //        .attr('fill', "red");
-
-            //if (dataset !== undefined) {
-            //    //
-            //    //    var path = svg.selectAll("path")
-            //    //        .data(linechartPath)
-            //    //        .enter().append("path")
-            //    //        .attr("d", function(d) { return d.points; })
-            //    //        .attr("fill", "white")
-            //    //        .attr("fill-opacity", "0.2")
-            //    //        .attr("stroke", "white")
-            //    //        .attr("stroke-width", "1");
-            //    //
-            //    //    var circle = svg.selectAll("circle")
-            //    //        .data(dataset)
-            //    //        .enter().append("circle")
-            //    //        .attr("fill", "#6BB9F0")
-            //    //        .attr("cx", function(d) { return d.width*30; })
-            //    //        .attr("cy", function(d) { return (d.y + (d.height)/2); })
-            //    //        .attr("r", "5");
-            //    //
-            //    //    var line = svg.selectAll("line")
-            //    //        .data(dataset)
-            //    //        .enter().append("line")
-            //    //        .attr("x1", "0")
-            //    //        .attr("y1", function(d) { return (d.y + (d.height)/2); })
-            //    //        .attr("x2", function(d) { return d.width*30; })
-            //    //        .attr("y2", function(d) { return d.y + (d.height)/2; })
-            //    //        .attr("stroke", "#6BB9F0")
-            //    //        .attr("stroke-width", "2");
-            //    //
-            //    //    var text = svg.selectAll("text")
-            //    //        .data(dataset)
-            //    //        .enter().append("text")
-            //    //        .text(function(d) {return d.value;})
-            //    //        .attr("x", "10")
-            //    //        .attr("y", function(d) { return (d.y + d.height/2 -4); })
-            //    //        .attr("font-size", "16");
-            //    //}
-            //}
-        //})(window.d3);
-
 });

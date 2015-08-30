@@ -66,14 +66,14 @@
 
                     <ul class="itemList">
                         <li class="itemElement" ng-repeat="item in inventory | filter:searchKeyword">
-                            <input type="checkbox" ng-model="chart.isChecked" ng-click="d3LineChart($event)">
-                            <input type="checkbox" ng-model="log.isChecked">
+                            <input class="chartIcon" type="checkbox" ng-model="chart.isChecked" ng-click="d3LineChart($event)">
+                            <input class="logIcon" type="checkbox" ng-model="log.isChecked">
                             <div class="itemName">{{item.name}}</div>
                             <div class="itemQuantity">{{item.quantity}}</div>
 
                             <div class="listBtn">
                                 <!--<button class="modify" type="button" ng-click="modifyItem($event)">수정</button>-->
-                                <!--<button class="delete" type="button" ng-click="deleteItem($event)">삭제</button>-->
+                                <button class="delete" type="button" ng-click="deleteItem($event)">삭제</button>
                             </div>
 
                             <div ng-class="{'itemChart' : true , 'hidden' : !chart.isChecked}">
@@ -87,7 +87,7 @@
                                     <tr>
                                         <th>Date</th><th>Name</th><th colspan="2">Quantity</th><th>비고</th>
                                     </tr>
-                                    <tr ng-repeat="item in invenLog | filter:filterbyItem()">
+                                    <tr ng-repeat="item in invenLog | filter:filterKey(item):true">
                                         <td>{{item.date}}</td>
                                         <td>{{item.name}}</td>
                                         <td>{{item.input}}</td>
@@ -108,7 +108,7 @@
                         </li>
                     </ul>
 
-                    <ul>
+                    <ul class="logList">
                         <table class="invenLog">
                             <tr>
                                 <th>Date</th><th>Name</th><th colspan="2">Quantity</th><th>비고</th>

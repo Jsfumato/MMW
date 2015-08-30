@@ -457,10 +457,6 @@ div.graph.d3 {
 
 
 
-
-
-
-
 #inventory .searchForm {
     width: 700px;
     height: 40px;
@@ -540,7 +536,6 @@ span.require::before {
 
 .itemList .itemElement .itemName {
     width: 80px;
-    text-align: center;
     display: inline-block;
     padding: 5px;
     border-right: solid 1px gray;
@@ -559,23 +554,32 @@ span.require::before {
     float: right;
 }
 
+.logList {
+    padding-left: 0;
+}
+
 .invenLog {
     width: 700px;
     box-sizing: border-box;
     text-align: left;
+    border: solid 1px black;
 }
+
 .invenLog th:first-child {
     width: 300px;
+    text-align: center;
 }
-.invenLog th:nth-child(2) {
+.invenLog th:nth-child(2), th:nth-child(3), th:nth-child(4), th:nth-child(5) {
     width: 100px;
+    text-align: center;
 }
-.invenLog th:nth-child(3) {
+.invenLog td:nth-child(3) {
     width: 100px;
+    text-align: right;
+    color: #4f4fff;
 }
-.invenLog th:nth-child(4){
+.invenLog td:nth-child(4) {
     width: 100px;
-}
-.invenLog th:nth-child(5){
-    width: 100px;
+    text-align: right;
+    color: #ff4f4f;
 }
