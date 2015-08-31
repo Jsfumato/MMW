@@ -71,9 +71,12 @@
                             <input class="logIcon" type="checkbox" ng-model="log.isChecked">
                             <div class="itemName">{{item.name}}</div>
                             <div class="itemQuantity">{{item.quantity}}</div>
+                            <ul>
+                                <li ng-repeat="item in invenLog | filter:filterKey(item):true | limitTo:-1">{{item.input}}{{item.output}}</li>
+                            </ul>
+
 
                             <div class="listBtn">
-                                <!--<button class="modify" type="button" ng-click="modifyItem($event)">수정</button>-->
                                 <button class="delete" type="button" ng-click="deleteItem($event)">삭제</button>
                             </div>
 
@@ -81,9 +84,9 @@
                                 <hr>
                                 Chart
                                 <svg width="700px" height="200px" style="background: white">
-                                    <g ng-repeat="item in invenLog | filter:filterKey(item):true | limitTo:10">
-                                        <line ng-attr-x1="{{$index*5+10}}" y1="180" ng-attr-x2="{{$index*5+10}}" ng-attr-y2="{{-item.quantity/20+180}}" stroke="black" stroke-width="4px"></line>
-                                        <circle ng-attr-cx="{{$index*5+10}}" ng-attr-cy="{{-item.quantity/20+180}}" r="5" fill="black" stroke="black" stroke-width="1px"></circle>
+                                    <g ng-repeat="item in invenLog | filter:filterKey(item):true | limitTo:-10">
+                                        <line ng-attr-x1="{{$index*68+44}}" y1="180" ng-attr-x2="{{$index*68+44}}" ng-attr-y2="{{-item.quantity/20+180}}" stroke="black" stroke-width="4px"></line>
+                                        <circle ng-attr-cx="{{$index*68+44}}" ng-attr-cy="{{-item.quantity/20+180}}" r="5" fill="black" stroke="black" stroke-width="1px"></circle>
                                     </g>
                                 </svg>
                             </div>

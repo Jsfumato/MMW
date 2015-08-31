@@ -503,14 +503,6 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
         hiddenOpt.addClass("hidden");
     };
 
-    //$scope.modifyItem = function($event){
-    //
-    //    var btn = $event.currentTarget;
-    //    var hiddenOpt = $(btn).closest(".itemElement").children(".modify");
-    //
-    //    hiddenOpt.toggleClass("hidden");
-    //};
-
     $scope.deleteItem = function($event){
 
         var btn = $event.currentTarget;
@@ -534,6 +526,7 @@ app.controller("inventoryCtrl", function($scope, GlobalVariable){
             }
         }
     };
+
 
     //var makeChartPath = function() {
     //
